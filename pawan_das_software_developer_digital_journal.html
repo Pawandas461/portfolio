@@ -1,0 +1,2517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pawan Das — Software Developer &amp; Digital Journal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <style>
+    :root {
+      --ivory: #F5F2EC;
+      --paper: #EFECE4;
+      --sand: #E5E0D6;
+      --navy: #17243A;
+      --slate: #526B85;
+      --terracotta: #D58B68;
+      --terracotta-soft: rgba(213, 139, 104, 0.16);
+      --ink: #20232B;
+      --muted: #62636A;
+      --white: #FFFFFF;
+      --border: rgba(23, 36, 58, 0.11);
+      --border-strong: rgba(23, 36, 58, 0.22);
+    }
+
+    body.personal-mode {
+      --ivory: #F7F2E8;
+      --paper: #EFE7D8;
+      --sand: #E4D9C6;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+      background-color: var(--ivory);
+      color: var(--ink);
+      overflow-x: hidden;
+      transition: background-color 0.45s ease;
+    }
+
+    .font-serif-editorial {
+      font-family: 'Playfair Display', Georgia, serif;
+    }
+
+    .font-mono-label {
+      font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+    }
+
+    .font-handwritten {
+      font-family: 'Caveat', cursive;
+    }
+
+    /* Floating Pill Nav */
+    .floating-nav {
+      background: rgba(245, 242, 236, 0.9);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 30px -16px rgba(23, 36, 58, 0.16);
+    }
+
+    .nav-link-active {
+      border: 1px solid var(--navy);
+      color: var(--navy);
+      font-weight: 500;
+    }
+
+    /* Editorial Polaroid Frame */
+    .polaroid-frame {
+      background: var(--white);
+      padding: 12px 12px 20px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(23, 36, 58, 0.08);
+      box-shadow: 0 24px 48px -22px rgba(23, 36, 58, 0.22), 0 4px 12px -4px rgba(23, 36, 58, 0.08);
+      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+    }
+
+    .polaroid-frame:hover {
+      transform: rotate(0deg) translateY(-4px) !important;
+      box-shadow: 0 28px 54px -20px rgba(23, 36, 58, 0.28);
+    }
+
+    .washi-tape {
+      position: absolute;
+      top: -11px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-1.5deg);
+      width: 82px;
+      height: 24px;
+      background: rgba(213, 139, 104, 0.38);
+      backdrop-filter: blur(2px);
+      z-index: 10;
+    }
+
+    /* Subtle paper texture for editorial quote & personal blocks */
+    .paper-surface {
+      background-color: var(--paper);
+      background-image: radial-gradient(rgba(23, 36, 58, 0.04) 1px, transparent 0);
+      background-size: 20px 20px;
+    }
+
+    /* Editorial Card */
+    .editorial-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .editorial-card:hover {
+      border-color: var(--border-strong);
+      box-shadow: 0 18px 36px -22px rgba(23, 36, 58, 0.18);
+    }
+
+    /* Tech Marquee */
+    @keyframes marqueeEditorial {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marqueeEditorial 34s linear infinite;
+    }
+
+    .marquee-track:hover {
+      animation-play-state: paused;
+    }
+
+    /* Pinned Full-Size Stacking Project Stage */
+    .projects-stack-stage {
+      position: relative;
+      width: 100%;
+      height: 430px;
+      overflow: visible;
+      border-radius: 28px;
+    }
+
+    @media (max-width: 768px) {
+      .projects-stack-stage {
+        height: 490px;
+      }
+    }
+
+    .project-stack-card {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 28px;
+      background: var(--white);
+      border: 1.5px solid var(--border-strong);
+      box-shadow: 0 24px 48px -22px rgba(23, 36, 58, 0.25);
+      overflow: hidden;
+      will-change: transform, opacity;
+    }
+
+    /* Orbital Round Skill Cards */
+    .skill-orbit-stage {
+      position: relative;
+      width: 100%;
+      height: 410px;
+      overflow: hidden;
+    }
+
+    @media (max-width: 640px) {
+      .skill-orbit-stage {
+        height: 360px;
+      }
+    }
+
+    .skill-round-card {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 132px;
+      height: 132px;
+      margin-left: -66px;
+      margin-top: -66px;
+      border-radius: 9999px;
+      background: var(--white);
+      border: 1.5px solid var(--border-strong);
+      box-shadow: 0 18px 34px -20px rgba(23, 36, 58, 0.28);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 14px;
+      cursor: pointer;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+      will-change: transform, opacity;
+    }
+
+    @media (max-width: 640px) {
+      .skill-round-card {
+        width: 112px;
+        height: 112px;
+        margin-left: -56px;
+        margin-top: -56px;
+        padding: 8px;
+      }
+    }
+
+    .skill-round-card:hover,
+    .skill-round-card.orbit-active {
+      border-color: var(--terracotta);
+      box-shadow: 0 20px 40px -16px rgba(213, 139, 104, 0.45);
+      background: #FFFDF9;
+    }
+
+    /* Skill relationship highlight */
+    .skill-chip {
+      background: var(--white);
+      border: 1px solid var(--border);
+      transition: all 0.22s ease;
+    }
+
+    .skill-chip:hover,
+    .skill-chip.skill-related {
+      border-color: var(--terracotta);
+      background: rgba(213, 139, 104, 0.11);
+      color: var(--navy);
+      transform: translateY(-2px);
+    }
+
+    .skill-chip.skill-dimmed {
+      opacity: 0.42;
+    }
+
+    /* Scroll progress hairline */
+    #scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 2.5px;
+      width: 0%;
+      background: var(--terracotta);
+      z-index: 80;
+      pointer-events: none;
+    }
+
+    /* Giant outlined monogram watermark */
+    .watermark-pd {
+      font-family: 'Playfair Display', Georgia, serif;
+      -webkit-text-stroke: 1.5px rgba(23, 36, 58, 0.24);
+      color: rgba(213, 139, 104, 0.06);
+      user-select: none;
+      pointer-events: none;
+      letter-spacing: -0.04em;
+    }
+
+    /* Custom subtle scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--ivory); }
+    ::-webkit-scrollbar-thumb { background: rgba(23, 36, 58, 0.22); border-radius: 999px; }
+  </style>
+</head>
+<body class="antialiased selection:bg-[#D58B68]/25 selection:text-[#17243A]">
+  <div id="scroll-progress"></div>
+
+  <!-- FLOATING PILL NAVIGATION -->
+  <header class="fixed top-4 inset-x-0 z-50 px-3 sm:px-6 pointer-events-none">
+    <div class="floating-nav max-w-5xl mx-auto rounded-full px-3 sm:px-4 h-14 flex items-center justify-between gap-2 pointer-events-auto">
+      <!-- Brand Monogram (Easter Egg #1: click 3x) -->
+      <button id="brand-logo-btn" type="button" class="flex items-center gap-2.5 text-left group shrink-0 focus:outline-none" title="Pawan Das — Home">
+        <span class="w-9 h-9 rounded-full bg-[#17243A] text-[#F5F2EC] flex items-center justify-center font-serif-editorial font-semibold text-sm tracking-tight group-hover:scale-105 transition-transform">PD</span>
+        <div class="leading-tight hidden sm:block">
+          <div class="text-sm font-serif-editorial font-semibold text-[#17243A]">Pawan Das</div>
+          <div class="text-[10px] font-mono-label tracking-widest uppercase text-[#526B85]">BACKEND DEV</div>
+        </div>
+      </button>
+
+      <!-- Desktop Nav Links -->
+      <nav id="desktop-nav" class="hidden lg:flex items-center gap-1 text-xs font-medium text-[#62636A]">
+        <a href="#about" data-nav="about" class="nav-link px-3 py-1.5 rounded-full hover:text-[#17243A] transition-colors">About</a>
+        <a href="#journey" data-nav="journey" class="nav-link px-3 py-1.5 rounded-full hover:text-[#17243A] transition-colors">Journey</a>
+        <a href="#skills" data-nav="skills" class="nav-link px-3 py-1.5 rounded-full hover:text-[#17243A] transition-colors">Skills</a>
+        <a href="#projects" data-nav="projects" class="nav-link px-3 py-1.5 rounded-full hover:text-[#17243A] transition-colors">Projects</a>
+        <a href="#playground" data-nav="playground" class="nav-link px-3 py-1.5 rounded-full hover:text-[#17243A] transition-colors">Playground</a>
+        <a href="#contact" data-nav="contact" class="nav-link px-3 py-1.5 rounded-full hover:text-[#17243A] transition-colors">Contact</a>
+      </nav>
+
+      <!-- Right: Mode Toggle + Resume + Mobile Menu -->
+      <div class="flex items-center gap-2">
+        <!-- Professional | Personal Mode Toggle -->
+        <!-- <div class="inline-flex items-center p-1 rounded-full bg-[#17243A] text-xs font-medium" role="group" aria-label="Portfolio Mode Switcher">
+          <button id="mode-pro-btn" type="button" class="px-3 py-1 rounded-full bg-[#D58B68] text-[#17243A] font-semibold transition-all">Professional</button>
+          <button id="mode-personal-btn" type="button" class="px-3 py-1 rounded-full text-[#F5F2EC]/80 hover:text-white transition-all">Personal</button>
+        </div> -->
+
+       <!-- <button id="resume-open-btn" type="button" class="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-[#17243A]/25 text-xs font-medium text-[#17243A] hover:bg-[#17243A] hover:text-white transition-colors">
+          <span>Résumé</span>
+        </button> -->
+
+        <button id="mobile-menu-btn" type="button" aria-label="Toggle navigation menu" class="lg:hidden p-2 rounded-full border border-[#17243A]/15 text-[#17243A]">
+          <i data-lucide="menu" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown -->
+    <div id="mobile-nav" class="hidden lg:hidden max-w-5xl mx-auto mt-2 rounded-2xl floating-nav p-3 space-y-1 pointer-events-auto">
+      <a href="#about" class="mobile-link block px-3 py-2 rounded-xl text-sm text-[#17243A] hover:bg-[#E5E0D6]/60">About</a>
+      <a href="#journey" class="mobile-link block px-3 py-2 rounded-xl text-sm text-[#17243A] hover:bg-[#E5E0D6]/60">Experience Journey</a>
+      <a href="#skills" class="mobile-link block px-3 py-2 rounded-xl text-sm text-[#17243A] hover:bg-[#E5E0D6]/60">Technical Skills</a>
+      <a href="#projects" class="mobile-link block px-3 py-2 rounded-xl text-sm text-[#17243A] hover:bg-[#E5E0D6]/60">Featured Projects</a>
+      <a href="#playground" class="mobile-link block px-3 py-2 rounded-xl text-sm text-[#17243A] hover:bg-[#E5E0D6]/60">Interactive Playground</a>
+      <a href="#contact" class="mobile-link block px-3 py-2 rounded-xl text-sm text-[#17243A] hover:bg-[#E5E0D6]/60">Contact</a>
+      <button id="mobile-resume-btn" type="button" class="w-full text-left px-3 py-2 rounded-xl text-sm font-medium text-[#D58B68] hover:bg-[#E5E0D6]/60">View / Download Résumé</button>
+    </div>
+  </header>
+
+  <!-- ========================================================= -->
+  <!-- PROFESSIONAL MODE CONTAINER                               -->
+  <!-- ========================================================= -->
+  <div id="professional-view">
+    <!-- 1. HERO SECTION -->
+    <section id="home" class="relative min-h-screen flex items-center pt-24 pb-12 overflow-x-clip">
+      <div class="max-w-5xl mx-auto px-5 sm:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <!-- Left Column -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="flex flex-wrap items-center gap-2.5 hero-stagger">
+            <span class="px-3.5 py-1 rounded-full bg-white/80 border border-[#17243A]/10 text-[11px] font-mono-label tracking-widest uppercase text-[#526B85]">PORTFOLIO · 2026</span>
+            <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white/80 border border-[#17243A]/10 text-[11px] font-medium text-[#20232B]">
+              <span class="w-2 h-2 rounded-full bg-[#D58B68]"></span>
+              Available for opportunities
+            </span>
+          </div>
+
+          <h1 class="hero-stagger font-serif-editorial text-4xl sm:text-5xl lg:text-[56px] font-semibold tracking-tight leading-[1.08] text-[#17243A]">
+            Building digital experiences, <em class="italic font-medium text-[#D58B68]">one</em> idea at a time.
+          </h1>
+
+          <p class="hero-stagger text-[15px] sm:text-base leading-relaxed text-[#62636A] max-w-xl">
+            Hi, I’m <strong class="text-[#17243A] font-semibold">Pawan Das</strong> — a software developer passionate about building meaningful digital experiences. My core strength lies in backend development with <strong class="text-[#17243A] font-medium">PHP and Laravel</strong>, while my experience extends across modern JavaScript technologies, databases, APIs, and full-stack application development.
+          </p>
+
+          <div class="hero-stagger text-[11px] font-mono-label tracking-[0.18em] uppercase text-[#526B85]">
+            DEVELOPER &nbsp;·&nbsp; PROBLEM SOLVER &nbsp;·&nbsp; CURIOUS MIND
+          </div>
+
+          <div class="hero-stagger flex flex-wrap items-center gap-3 pt-1">
+            <a href="#projects" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#D58B68] text-white text-sm font-medium hover:bg-[#c57a57] transition-colors shadow-sm">
+              <span>Explore my work</span>
+              <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+            </a>
+            <a href="#about" class="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-[#17243A] text-[#17243A] text-sm font-medium hover:bg-[#17243A] hover:text-white transition-colors">
+              <span>A little about me</span>
+              <i data-lucide="arrow-down" class="w-3.5 h-3.5"></i>
+            </a>
+           <!-- <button id="hero-resume-btn" type="button" class="px-2 py-2 text-sm font-medium text-[#526B85] underline underline-offset-4 hover:text-[#17243A] transition-colors">
+              Download résumé
+            </button> -->
+          </div>
+
+          <div class="hero-stagger pt-6 flex items-center gap-3 text-[11px] font-mono-label tracking-[0.2em] uppercase text-[#526B85]">
+            <span class="w-8 h-px bg-[#526B85]/50"></span>
+            <span>SCROLL TO EXPLORE</span>
+          </div>
+        </div>
+
+        <!-- Right Column: Editorial Polaroid Frame -->
+        <div id="hero-visual-stage" class="lg:col-span-5 relative flex justify-center lg:justify-end pt-4 pb-10">
+          <div id="hero-pd-watermark" class="watermark-pd absolute bottom-4 sm:bottom-8 -right-4 sm:-right-10 text-[155px] sm:text-[190px] font-bold leading-none z-0" style="opacity: 0.28;">PD</div>
+
+          <div id="hero-polaroid-scroll" class="relative z-30 max-w-[320px] w-full" style="transform-origin: 18% 88%;">
+            <!-- Corner registration marks -->
+            <span class="absolute -top-4 -left-4 text-xs font-mono-label text-[#526B85]/70 select-none">+</span>
+            <span class="absolute -bottom-4 -left-3 text-xs font-mono-label text-[#526B85]/70 select-none">+</span>
+            <span class="absolute -bottom-4 -right-3 text-xs font-mono-label text-[#526B85]/70 select-none">+</span>
+
+            <!-- Floating Emoji Badge -->
+            <span id="hero-emoji-badge" class="hero-chip absolute -top-5 -left-4 z-20 w-11 h-11 rounded-full bg-white border border-[#17243A]/12 shadow-md flex items-center justify-center text-xl select-none" aria-label="Developer emoji">👨‍💻</span>
+
+            <!-- Floating tech chips -->
+            <span class="hero-chip absolute -top-3 -right-4 z-20 px-3 py-1 rounded-full bg-white border border-[#17243A]/10 shadow-sm text-xs font-mono-label text-[#17243A]">PHP</span>
+            <span class="hero-chip absolute top-1/2 -right-6 z-20 px-3 py-1 rounded-full bg-white border border-[#17243A]/10 shadow-sm text-xs font-mono-label text-[#17243A]">Laravel</span>
+            <span class="hero-chip absolute -bottom-4 right-10 z-20 px-3 py-1 rounded-full bg-white border border-[#17243A]/10 shadow-sm text-xs font-mono-label text-[#17243A]">Node.js</span>
+
+            <div id="hero-polaroid" class="polaroid-frame" style="transform: rotate(0deg);">
+              <div class="overflow-hidden rounded-lg aspect-[3/4] bg-[#E5E0D6]">
+                <img src="Gemini_Generated_Image (2).jpeg" />
+              </div>
+              <div class="mt-3.5 px-1 flex items-center justify-between text-[11px] font-mono-label tracking-wider uppercase">
+                <span class="text-[#526B85]">PAWAN DAS</span>
+                <span class="text-[#D58B68]">SOFTWARE DEVELOPER</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TECH MARQUEE STRIP -->
+    <div class="border-y border-[#17243A]/10 bg-white/55 py-3.5 overflow-hidden select-none">
+      <div class="marquee-track items-center gap-7 text-xs font-mono-label tracking-[0.18em] uppercase text-[#526B85]">
+        <span>PHP</span><span class="text-[#D58B68]">·</span>
+        <span>LARAVEL</span><span class="text-[#D58B68]">·</span>
+        <span>NODE.JS</span><span class="text-[#D58B68]">·</span>
+        <span>MYSQL</span><span class="text-[#D58B68]">·</span>
+        <span>MONGODB</span><span class="text-[#D58B68]">·</span>
+        <span>REST APIS</span><span class="text-[#D58B68]">·</span>
+        <span>SUITECRM</span><span class="text-[#D58B68]">·</span>
+        <span>NEXT.JS</span><span class="text-[#D58B68]">·</span>
+        <span>REACT</span><span class="text-[#D58B68]">·</span>
+        <span>POSTGRESQL</span><span class="text-[#D58B68]">·</span>
+        <span>SUPABASE</span><span class="text-[#D58B68]">·</span>
+        <span>PHP</span><span class="text-[#D58B68]">·</span>
+        <span>LARAVEL</span><span class="text-[#D58B68]">·</span>
+        <span>NODE.JS</span><span class="text-[#D58B68]">·</span>
+        <span>MYSQL</span><span class="text-[#D58B68]">·</span>
+        <span>MONGODB</span><span class="text-[#D58B68]">·</span>
+        <span>REST APIS</span><span class="text-[#D58B68]">·</span>
+        <span>SUITECRM</span><span class="text-[#D58B68]">·</span>
+        <span>NEXT.JS</span><span class="text-[#D58B68]">·</span>
+        <span>REACT</span><span class="text-[#D58B68]">·</span>
+        <span>POSTGRESQL</span><span class="text-[#D58B68]">·</span>
+        <span>SUPABASE</span><span class="text-[#D58B68]">·</span>
+      </div>
+    </div>
+
+    <!-- 2. ABOUT ME — MORE THAN JUST CODE -->
+    <section id="about" class="py-20 sm:py-24 max-w-5xl mx-auto px-5 sm:px-8">
+      <div class="space-y-2 mb-12">
+        <div class="text-[11px] font-mono-label tracking-[0.2em] uppercase">
+          <span class="text-[#D58B68]">ABOUT</span> <span class="text-[#526B85]">· MORE THAN CODE</span>
+        </div>
+        <h2 class="font-serif-editorial text-3xl sm:text-4xl font-semibold text-[#17243A]">
+          There’s More to Me Than Just Code.
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        <!-- Left Polaroid with Washi Tape -->
+        <div class="lg:col-span-5">
+          <div class="relative max-w-sm mx-auto lg:mx-0">
+            <div class="washi-tape"></div>
+            <div class="polaroid-frame" style="transform: rotate(-1.5deg);">
+              <div class="overflow-hidden rounded-lg aspect-[4/4] bg-[#E5E0D6]">
+                <img src="Gemini_Generated_Image.jpeg" />
+              </div>
+            </div>
+            <p class="font-handwritten text-xl text-[#526B85] mt-4 pl-2">
+              ← Slow progess is still progress. Keep going, keep learning, and keep building.
+            </p>
+          </div>
+        </div>
+
+        <!-- Right Editorial Bio, Traits & Quotes -->
+        <div class="lg:col-span-7 space-y-6">
+          <p class="text-base leading-relaxed text-[#62636A]">
+            Beyond backend systems and databases, I value steady effort, honest work, and staying curious. I enjoy understanding how things work under the hood, adapting to new technical challenges, and building software that quietly solves real problems for the people who use it.
+          </p>
+
+          <!-- Personality Trait Pills -->
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3.5 py-1.5 rounded-full bg-white border border-[#17243A]/10 text-xs font-medium text-[#17243A]">Hardworking</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-white border border-[#17243A]/10 text-xs font-medium text-[#17243A]">Humble</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-white border border-[#17243A]/10 text-xs font-medium text-[#17243A]">Honest</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-white border border-[#17243A]/10 text-xs font-medium text-[#17243A]">Curious learner</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-white border border-[#17243A]/10 text-xs font-medium text-[#17243A]">Interested in technology</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-white border border-[#17243A]/10 text-xs font-medium text-[#17243A]">Loves exploring new things</span>
+          </div>
+
+          <!-- Personal Philosophy Blockquote -->
+          <blockquote class="border-l-2 border-[#D58B68] pl-5 py-1">
+            <p class="font-serif-editorial italic text-xl sm:text-2xl text-[#17243A] leading-snug">
+              Build things properly, keep learning, and let the work speak quietly for itself.
+            </p>
+          </blockquote>
+
+          <!-- Placeholder Editorial Quotes -->
+          <div class="space-y-3 pt-1">
+            <div class="flex items-start gap-2.5">
+              <span class="font-serif-editorial text-xl text-[#D58B68] leading-none">“</span>
+              <div>
+                <p class="text-sm text-[#20232B]">Small steps, consistent effort, meaningful progress.</p>
+                <!--<span class="font-handwritten text-base text-[#526B85]">placeholder quote — replace with your own</span> -->
+              </div>
+            </div>
+            <div class="flex items-start gap-2.5">
+              <span class="font-serif-editorial text-xl text-[#D58B68] leading-none">“</span>
+              <div>
+                <p class="text-sm text-[#20232B]">Keep learning. Keep exploring. Keep becoming.</p>
+                <!--<span class="font-handwritten text-base text-[#526B85]">placeholder quote — replace with your own</span> -->
+              </div>
+            </div>
+          </div>
+
+          <!-- CTA to Personal Mode -->
+          <div class="pt-3">
+            <button id="meet-human-btn" type="button" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#17243A] text-[#F5F2EC] text-sm font-medium hover:bg-[#233554] transition-colors">
+              <span>Meet the human side</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. CAREER JOURNEY (INTERACTIVE VERTICAL TIMELINE) -->
+    <section id="journey" class="py-20 sm:py-24 border-t border-[#17243A]/10">
+      <div class="max-w-5xl mx-auto px-5 sm:px-8">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
+          <div class="space-y-2">
+            <div class="text-[11px] font-mono-label tracking-[0.2em] uppercase">
+              <span class="text-[#D58B68]">01 / EXPERIENCE</span> <span class="text-[#526B85]">· CAREER TIMELINE</span>
+            </div>
+            <h2 class="font-serif-editorial text-3xl sm:text-4xl font-semibold text-[#17243A]">Professional Journey</h2>
+          </div>
+          <p class="text-xs font-mono-label text-[#526B85]">Click any role to expand details · Dates editable</p>
+        </div>
+
+        <div id="timeline-wrapper" class="relative pl-8 sm:pl-10">
+          <!-- Base vertical track -->
+          <div class="absolute left-[11px] sm:left-[15px] top-6 bottom-6 w-[2px] bg-[#17243A]/15 rounded-full"></div>
+          <!-- Scroll-driven yellow progress line -->
+          <div id="timeline-progress-line" class="absolute left-[11px] sm:left-[15px] top-6 w-[2px] bg-[#EAB308] rounded-full" style="height: 0%;"></div>
+          <!-- Scroll-driven moving yellow ball -->
+          <div id="timeline-yellow-ball" class="absolute left-[4px] sm:left-[8px] top-6 w-4 h-4 -translate-y-1/2 rounded-full bg-[#FACC15] border-2 border-[#17243A] z-20 pointer-events-none" style="box-shadow: 0 0 12px rgba(234, 179, 8, 0.75);"></div>
+
+          <div id="timeline-list" class="space-y-6">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. TECHNICAL SKILLS (SINGLE-VIEW PINNED ORBITAL CIRCLE + ACTIVE CARD TECHNOLOGIES) -->
+    <section id="skills" class="relative z-10 min-h-screen flex flex-col justify-center pt-20 pb-10 paper-surface border-y border-[#17243A]/10">
+      <div class="max-w-5xl mx-auto px-5 sm:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-3 mb-4">
+          <div class="space-y-1">
+            <div class="text-[11px] font-mono-label tracking-[0.2em] uppercase">
+              <span class="text-[#D58B68]">02 / CAPABILITIES</span> <span class="text-[#526B85]">· TECHNICAL STACK</span>
+            </div>
+            <h2 class="font-serif-editorial text-2xl sm:text-3xl font-semibold text-[#17243A]">Skills &amp; Ecosystem</h2>
+          </div>
+
+          <div id="skill-category-tabs" class="flex flex-wrap gap-1.5">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Unified Single-View Stage: Active Technologies Card on top + Orbital Circle below -->
+        <div class="rounded-3xl border border-[#17243A]/12 bg-[#F5F2EC]/85 overflow-hidden shadow-sm">
+          <!-- Active Card Technologies Strip (updates automatically as each round card appears) -->
+          <div id="skills-grid" class="border-b border-[#17243A]/10 bg-white/90 px-5 py-3.5 min-h-[82px] flex flex-col justify-center">
+            <!-- Populated by JS -->
+          </div>
+
+          <!-- Orbital Circle Stage -->
+          <div id="skill-orbit-stage" class="skill-orbit-stage">
+            <!-- Subtle dashed orbit ring guide -->
+            <div id="skill-orbit-ring" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-[#17243A]/15 pointer-events-none" style="width: 280px; height: 280px;"></div>
+
+            <!-- Center Hub -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none z-10 px-4">
+              <div id="orbit-progress-label" class="text-[10px] font-mono-label uppercase tracking-widest text-[#D58B68]">SCROLL TO ASSEMBLE</div>
+              <div class="font-serif-editorial text-base sm:text-lg font-semibold text-[#17243A] mt-0.5">Core Stack</div>
+              <div id="orbit-count-label" class="text-[11px] font-mono-label text-[#526B85] mt-0.5">0 / 6 Formed</div>
+            </div>
+
+            <!-- Round Cards injected by JS -->
+            <div id="skills-orbit-cards"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. FEATURED PROJECTS (PINNED FULL-SIZE STACKING DECK) -->
+    <section id="projects" class="relative z-20 min-h-screen flex flex-col justify-center bg-[#F5F2EC] pt-20 pb-16 overflow-x-clip">
+      <div class="max-w-5xl mx-auto px-5 sm:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
+          <div class="space-y-1.5">
+            <div class="flex items-center gap-3 text-[11px] font-mono-label tracking-[0.2em] uppercase">
+              <span class="text-[#D58B68]">03 / SELECTED WORK</span>
+              <span class="text-[#526B85]">· SCROLL TO STACK</span>
+              <span id="project-stack-counter" class="px-2.5 py-0.5 rounded-full bg-[#17243A] text-[#F5F2EC] tracking-normal">01 / 07</span>
+            </div>
+            <h2 class="font-serif-editorial text-3xl sm:text-4xl font-semibold text-[#17243A]">Featured Projects</h2>
+          </div>
+
+          <div id="project-filters" class="flex flex-wrap gap-1.5">
+            <button type="button" data-proj-filter="all" class="proj-filter-btn px-3.5 py-1.5 rounded-full text-xs font-medium bg-[#17243A] text-white">All (7)</button>
+            <button type="button" data-proj-filter="php" class="proj-filter-btn px-3.5 py-1.5 rounded-full text-xs font-medium bg-white border border-[#17243A]/15 text-[#17243A]">PHP &amp; Laravel</button>
+            <button type="button" data-proj-filter="node" class="proj-filter-btn px-3.5 py-1.5 rounded-full text-xs font-medium bg-white border border-[#17243A]/15 text-[#17243A]">Node.js &amp; Next.js</button>
+            <button type="button" data-proj-filter="crm" class="proj-filter-btn px-3.5 py-1.5 rounded-full text-xs font-medium bg-white border border-[#17243A]/15 text-[#17243A]">SuiteCRM</button>
+          </div>
+        </div>
+
+        <!-- Pinned Full-Size Stacking Stage -->
+        <div id="projects-grid" class="projects-stack-stage">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. ACHIEVEMENTS & CAREER HIGHLIGHTS -->
+    <section id="milestones" class="py-20 sm:py-24 border-t border-[#17243A]/10 bg-white/50">
+      <div class="max-w-5xl mx-auto px-5 sm:px-8 space-y-10">
+        <div class="space-y-2">
+          <div class="text-[11px] font-mono-label tracking-[0.2em] uppercase">
+            <span class="text-[#D58B68]">04 / MILESTONES</span> <span class="text-[#526B85]">· VERIFIED HIGHLIGHTS</span>
+          </div>
+          <h2 class="font-serif-editorial text-3xl sm:text-4xl font-semibold text-[#17243A]">Career Highlights</h2>
+        </div>
+
+        <!-- Verified Stats Row -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+          <div class="editorial-card rounded-2xl p-6">
+            <div class="font-serif-editorial text-4xl font-semibold text-[#17243A]">
+              <span class="stat-counter" data-target="1.8" data-decimals="1">1.8</span><span class="text-[#D58B68]">+</span>
+            </div>
+            <div class="text-sm font-medium text-[#17243A] mt-2">Years at Webmaddy Pvt. Ltd.</div>
+            <p class="text-xs text-[#62636A] mt-1">January 2025 – October 2026 across Laravel, PHP, Node.js, and modern web stacks.</p>
+          </div>
+          <div class="editorial-card rounded-2xl p-6">
+            <div class="font-serif-editorial text-4xl font-semibold text-[#17243A]">
+              20–25
+            </div>
+            <div class="text-sm font-medium text-[#17243A] mt-2">Projects Delivered at Webmaddy</div>
+            <p class="text-xs text-[#62636A] mt-1">Backend systems, web applications, third-party integrations, and database solutions.</p>
+          </div>
+          <div class="editorial-card rounded-2xl p-6">
+            <div class="font-serif-editorial text-4xl font-semibold text-[#17243A]">
+              <span class="stat-counter" data-target="4" data-decimals="0">4</span><span class="text-[#D58B68]">+</span>
+            </div>
+            <div class="text-sm font-medium text-[#17243A] mt-2">Database &amp; CRM Ecosystems</div>
+            <p class="text-xs text-[#62636A] mt-1">MySQL, MongoDB, PostgreSQL, Supabase, plus enterprise SuiteCRM customization.</p>
+          </div>
+        </div>
+
+        <!-- Editable Placeholder Cards (Certifications, Awards, Milestones) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div class="rounded-2xl p-5 border border-dashed border-[#17243A]/20 bg-[#F5F2EC]/70 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono-label uppercase text-[#526B85]">Certifications</span>
+              <span class="text-[10px] font-mono-label px-2 py-0.5 rounded bg-[#E5E0D6] text-[#62636A]">EDITABLE SLOT</span>
+            </div>
+            <p class="text-sm text-[#62636A]">Add verified technical certifications or completed backend / cloud courses here.</p>
+          </div>
+          <div class="rounded-2xl p-5 border border-dashed border-[#17243A]/20 bg-[#F5F2EC]/70 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono-label uppercase text-[#526B85]">Awards &amp; Recognition</span>
+              <span class="text-[10px] font-mono-label px-2 py-0.5 rounded bg-[#E5E0D6] text-[#62636A]">EDITABLE SLOT</span>
+            </div>
+            <p class="text-sm text-[#62636A]">Add workplace recognitions, academic honors, or project milestones when ready.</p>
+          </div>
+          <div class="rounded-2xl p-5 border border-dashed border-[#17243A]/20 bg-[#F5F2EC]/70 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono-label uppercase text-[#526B85]">Learning Milestones</span>
+              <span class="text-[10px] font-mono-label px-2 py-0.5 rounded bg-[#E5E0D6] text-[#62636A]">EDITABLE SLOT</span>
+            </div>
+            <p class="text-sm text-[#62636A]">Highlight key engineering breakthroughs, open-source contributions, or architecture notes.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. EDITORIAL QUOTES & PERSONAL MESSAGES -->
+    <section class="py-20 paper-surface border-t border-[#17243A]/10">
+      <div class="max-w-4xl mx-auto px-5 sm:px-8 text-center space-y-8">
+        <div class="inline-flex items-center gap-2 text-[11px] font-mono-label tracking-[0.2em] uppercase text-[#526B85]">
+          <span>NOTES TO SELF</span>
+          <!-- Easter Egg #2: Tiny clickable terracotta star -->
+          <button id="egg-star-btn" type="button" title="A curious little star..." class="text-[#D58B68] hover:scale-125 transition-transform focus:outline-none">✦</button>
+        </div>
+
+        <blockquote class="font-serif-editorial text-2xl sm:text-4xl text-[#17243A] leading-snug">
+          “Success is not just reaching somewhere; it’s making sure you enjoy the journey and remember who walked beside you.”
+        </blockquote>
+
+        <p class="font-handwritten text-2xl text-[#526B85]">
+          — Pawan Das
+        </p>
+      </div>
+    </section>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- PERSONAL MODE CONTAINER (THE HUMAN SIDE)                  -->
+  <!-- ========================================================= -->
+  <div id="personal-view" class="hidden pt-28 pb-16">
+    <!-- A. MY LITTLE WORLD -->
+    <section class="max-w-5xl mx-auto px-5 sm:px-8 pb-16">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+        <div class="space-y-3">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#D58B68]/15 text-[#17243A] text-[11px] font-mono-label tracking-widest uppercase">
+            <span>PERSONAL MODE</span> · <span>DIGITAL JOURNAL</span>
+          </div>
+          <h1 class="font-serif-editorial text-4xl sm:text-5xl font-semibold text-[#17243A]">
+            Welcome to <em class="italic text-[#D58B68]">My Little World.</em>
+          </h1>
+          <p class="text-base text-[#62636A] max-w-2xl leading-relaxed">
+            This is the relaxed side of my portfolio — a quiet digital scrapbook for everyday moments, interests beyond the screen, people who inspire me, and random thoughts. Every personal card below is clearly marked as an editable slot ready for your real stories and photos.
+          </p>
+        </div>
+        <button id="back-to-pro-btn" type="button" class="self-start md:self-end inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-[#17243A] text-xs font-medium text-[#17243A] hover:bg-[#17243A] hover:text-white transition-colors shrink-0">
+          <i data-lucide="briefcase" class="w-3.5 h-3.5"></i>
+          <span>Switch to Professional Mode</span>
+        </button>
+      </div>
+
+      <!-- B. BEYOND THE SCREEN -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div class="editorial-card rounded-2xl p-6 space-y-2.5">
+          <div class="w-9 h-9 rounded-xl bg-[#D58B68]/15 text-[#D58B68] flex items-center justify-center"><i data-lucide="compass" class="w-4 h-4"></i></div>
+          <h3 class="font-serif-editorial text-lg font-semibold text-[#17243A]">Beyond the Screen</h3>
+          <p class="text-sm text-[#62636A]">Editable slot: Add your favourite offline hobbies, weekend routines, or outdoor activities.</p>
+          <span class="font-handwritten text-lg text-[#526B85] block">your real hobbies go here</span>
+        </div>
+        <div class="editorial-card rounded-2xl p-6 space-y-2.5">
+          <div class="w-9 h-9 rounded-xl bg-[#17243A]/10 text-[#17243A] flex items-center justify-center"><i data-lucide="book-open" class="w-4 h-4"></i></div>
+          <h3 class="font-serif-editorial text-lg font-semibold text-[#17243A]">Always Curious</h3>
+          <p class="text-sm text-[#62636A]">Editable slot: Share what you’re currently reading, watching, learning, or experimenting with.</p>
+          <span class="font-handwritten text-lg text-[#526B85] block">currently exploring...</span>
+        </div>
+        <div class="editorial-card rounded-2xl p-6 space-y-2.5">
+          <div class="w-9 h-9 rounded-xl bg-[#526B85]/15 text-[#526B85] flex items-center justify-center"><i data-lucide="heart" class="w-4 h-4"></i></div>
+          <h3 class="font-serif-editorial text-lg font-semibold text-[#17243A]">Simple Philosophy</h3>
+          <p class="text-sm text-[#62636A]">Stay grounded, keep learning, stay honest, and appreciate small everyday moments.</p>
+          <span class="font-handwritten text-lg text-[#526B85] block">core values</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- C. PEOPLE WHO INSPIRE ME -->
+    <section class="py-16 paper-surface border-y border-[#17243A]/10">
+      <div class="max-w-5xl mx-auto px-5 sm:px-8 space-y-8">
+        <div class="space-y-1.5">
+          <div class="text-[11px] font-mono-label tracking-[0.2em] uppercase text-[#D58B68]">C / ROLE MODELS</div>
+          <h2 class="font-serif-editorial text-3xl font-semibold text-[#17243A]">People Who Inspire Me</h2>
+          <p class="text-sm text-[#62636A]">Editable cards for your favourite people, mentors, or figures you admire — no invented names.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div class="polaroid-frame" style="transform: rotate(-1deg);">
+            <div class="aspect-[4/3] rounded-lg bg-[#EFECE4] border border-dashed border-[#17243A]/20 flex flex-col items-center justify-center text-[#526B85] gap-2">
+              <i data-lucide="user-round" class="w-8 h-8 opacity-50"></i>
+              <span class="text-[11px] font-mono-label">PHOTO SLOT 01</span>
+            </div>
+            <div class="pt-3 px-1 space-y-1">
+              <div class="font-serif-editorial font-semibold text-[#17243A]">Role Model / Mentor Name</div>
+              <p class="text-xs text-[#62636A]">Write a short note on what you admire about them and how they’ve influenced your mindset.</p>
+            </div>
+          </div>
+
+          <div class="polaroid-frame" style="transform: rotate(1.2deg);">
+            <div class="aspect-[4/3] rounded-lg bg-[#EFECE4] border border-dashed border-[#17243A]/20 flex flex-col items-center justify-center text-[#526B85] gap-2">
+              <i data-lucide="user-round" class="w-8 h-8 opacity-50"></i>
+              <span class="text-[11px] font-mono-label">PHOTO SLOT 02</span>
+            </div>
+            <div class="pt-3 px-1 space-y-1">
+              <div class="font-serif-editorial font-semibold text-[#17243A]">Favourite Personality</div>
+              <p class="text-xs text-[#62636A]">Add a creator, engineer, artist, or athlete whose craft or story keeps you motivated.</p>
+            </div>
+          </div>
+
+          <div class="polaroid-frame" style="transform: rotate(-0.8deg);">
+            <div class="aspect-[4/3] rounded-lg bg-[#EFECE4] border border-dashed border-[#17243A]/20 flex flex-col items-center justify-center text-[#526B85] gap-2">
+              <i data-lucide="user-round" class="w-8 h-8 opacity-50"></i>
+              <span class="text-[11px] font-mono-label">PHOTO SLOT 03</span>
+            </div>
+            <div class="pt-3 px-1 space-y-1">
+              <div class="font-serif-editorial font-semibold text-[#17243A]">Someone Close to You</div>
+              <p class="text-xs text-[#62636A]">Reserve a card for family or a close friend who has supported your journey.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- D. LITTLE MOMENTS (SCRAPBOOK GALLERY WITH LOCAL PREVIEW UPLOAD) -->
+    <section class="py-16 max-w-5xl mx-auto px-5 sm:px-8 space-y-8">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div class="space-y-1.5">
+          <div class="text-[11px] font-mono-label tracking-[0.2em] uppercase text-[#D58B68]">D / SCRAPBOOK GALLERY</div>
+          <h2 class="font-serif-editorial text-3xl font-semibold text-[#17243A]">Little Moments</h2>
+          <p class="text-sm text-[#62636A]">Casual photos, travel memories, and candid frames. You can preview your own photos right here in the browser.</p>
+        </div>
+        <label class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#17243A] text-white text-xs font-medium cursor-pointer hover:bg-[#243757] transition-colors shrink-0">
+          <i data-lucide="image-plus" class="w-3.5 h-3.5"></i>
+          <span>Preview Your Photo</span>
+          <input id="scrapbook-upload" type="file" accept="image/*" class="hidden" />
+        </label>
+      </div>
+
+      <div id="scrapbook-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Populated by JS -->
+      </div>
+    </section>
+
+    <!-- E, F, G, H: THINGS I LOVE, THINGS I DON'T, BUCKET LIST, RANDOM THOUGHTS -->
+    <section class="py-16 paper-surface border-y border-[#17243A]/10">
+      <div class="max-w-5xl mx-auto px-5 sm:px-8 space-y-14">
+        <!-- E. Things I Love -->
+        <div class="space-y-5">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <div class="text-[11px] font-mono-label tracking-[0.2em] uppercase text-[#D58B68]">E / FAVOURITES</div>
+              <h2 class="font-serif-editorial text-3xl font-semibold text-[#17243A]">Things I Love</h2>
+            </div>
+            <div id="loves-tabs" class="flex flex-wrap gap-1.5"></div>
+          </div>
+          <div id="loves-content" class="editorial-card rounded-2xl p-6"></div>
+        </div>
+
+        <!-- F & G: Two Column (Things I Don't + Interactive Bucket List) -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <!-- F. Things I Don't -->
+          <div class="editorial-card rounded-2xl p-6 sm:p-7 space-y-4">
+            <div class="text-[11px] font-mono-label tracking-[0.2em] uppercase text-[#D58B68]">F / LIGHTHEARTED PET PEEVES</div>
+            <h3 class="font-serif-editorial text-2xl font-semibold text-[#17243A]">Things I Don’t</h3>
+            <ul class="space-y-3 text-sm text-[#62636A]">
+              <li class="flex items-start gap-2.5"><span class="text-[#D58B68] font-mono-label">01.</span><span>Editable slot — e.g., undocumented legacy code at 11 PM (replace with your own pet peeve).</span></li>
+              <li class="flex items-start gap-2.5"><span class="text-[#D58B68] font-mono-label">02.</span><span>Editable slot — add a funny everyday annoyance or food dislike.</span></li>
+              <li class="flex items-start gap-2.5"><span class="text-[#D58B68] font-mono-label">03.</span><span>Editable slot — add another lighthearted dislike that shows your humour.</span></li>
+            </ul>
+          </div>
+
+          <!-- G. My Bucket List (Interactive!) -->
+          <div class="editorial-card rounded-2xl p-6 sm:p-7 space-y-4">
+            <div class="text-[11px] font-mono-label tracking-[0.2em] uppercase text-[#D58B68]">G / LIFE GOALS</div>
+            <h3 class="font-serif-editorial text-2xl font-semibold text-[#17243A]">My Bucket List</h3>
+            <ul id="bucket-list-items" class="space-y-2.5 text-sm"></ul>
+            <form id="bucket-form" class="flex gap-2 pt-2">
+              <input id="bucket-input" type="text" placeholder="Add a personal goal to your list..." class="flex-1 px-3.5 py-2 rounded-xl text-xs border border-[#17243A]/15 bg-[#F5F2EC] focus:outline-none focus:border-[#D58B68]" />
+              <button type="submit" class="px-4 py-2 rounded-xl bg-[#17243A] text-white text-xs font-medium hover:bg-[#243757]">Add</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- H. Random Thoughts -->
+        <div class="space-y-4">
+          <div class="text-[11px] font-mono-label tracking-[0.2em] uppercase text-[#D58B68]">H / JOURNAL NOTES</div>
+          <h3 class="font-serif-editorial text-2xl font-semibold text-[#17243A]">Random Thoughts</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div class="editorial-card rounded-2xl p-5 space-y-2">
+              <p class="font-serif-editorial italic text-base text-[#17243A]">“Simplicity is usually the hardest thing to design, both in code and in life.”</p>
+              <span class="font-handwritten text-lg text-[#526B85]">editable thought · note 01</span>
+            </div>
+            <div class="editorial-card rounded-2xl p-5 space-y-2">
+              <p class="font-serif-editorial italic text-base text-[#17243A]">“You learn the most when you stay curious enough to ask the quiet questions.”</p>
+              <span class="font-handwritten text-lg text-[#526B85]">editable thought · note 02</span>
+            </div>
+            <div class="editorial-card rounded-2xl p-5 space-y-2">
+              <p class="font-serif-editorial italic text-base text-[#17243A]">“Good software feels calm to use, even when it handles complex work underneath.”</p>
+              <span class="font-handwritten text-lg text-[#526B85]">editable thought · note 03</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  <section id="playground" class="py-20 sm:py-24 max-w-5xl mx-auto px-5 sm:px-8">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+      <div class="space-y-2">
+        <div class="text-[11px] font-mono-label tracking-[0.2em] uppercase">
+          <span class="text-[#D58B68]">INTERACTIVE PLAYGROUND</span> <span class="text-[#526B85]">· PLAY &amp; EXPLORE</span>
+        </div>
+        <h2 class="font-serif-editorial text-3xl sm:text-4xl font-semibold text-[#17243A]">Make Yourself at Home</h2>
+        <p class="text-sm text-[#62636A] max-w-xl">
+          Five lightweight JavaScript interactions — try a quick quiz, compare preferences, draw a random note, or hunt for the 3 hidden surprises across the page.
+        </p>
+      </div>
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-[#17243A]/12 text-xs font-mono-label text-[#17243A]">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#D58B68]"></i>
+        <span>Surprises Found: <strong id="egg-counter">0</strong> / 3</span>
+      </div>
+    </div>
+
+    <!-- Game Selector Tabs -->
+    <div class="editorial-card rounded-3xl overflow-hidden">
+      <div class="flex flex-wrap gap-1.5 p-3 border-b border-[#17243A]/10 bg-[#EFECE4]/70">
+        <button type="button" data-game-tab="interest" class="game-tab-btn px-4 py-2 rounded-full text-xs font-medium bg-[#17243A] text-white">01. Guess My Interest</button>
+        <button type="button" data-game-tab="knowme" class="game-tab-btn px-4 py-2 rounded-full text-xs font-medium bg-white border border-[#17243A]/12 text-[#17243A]">02. How Well Do You Know Me?</button>
+        <button type="button" data-game-tab="thisthat" class="game-tab-btn px-4 py-2 rounded-full text-xs font-medium bg-white border border-[#17243A]/12 text-[#17243A]">03. This or That</button>
+        <button type="button" data-game-tab="fact" class="game-tab-btn px-4 py-2 rounded-full text-xs font-medium bg-white border border-[#17243A]/12 text-[#17243A]">04. Random Fact Card</button>
+        <button type="button" data-game-tab="eggs" class="game-tab-btn px-4 py-2 rounded-full text-xs font-medium bg-white border border-[#17243A]/12 text-[#17243A]">05. Hidden Surprises</button>
+      </div>
+
+      <div class="p-6 sm:p-8">
+        <!-- Game 01: Guess My Interest -->
+        <div id="game-panel-interest" class="game-panel space-y-5">
+          <div class="flex items-center justify-between text-xs font-mono-label text-[#526B85]">
+            <span id="g1-progress">QUESTION 1 OF 4</span>
+            <span>SCORE: <strong id="g1-score" class="text-[#17243A]">0</strong></span>
+          </div>
+          <h3 id="g1-question" class="font-serif-editorial text-2xl font-semibold text-[#17243A]"></h3>
+          <div id="g1-options" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+          <div id="g1-feedback" class="text-sm font-medium min-h-[24px]"></div>
+          <div class="flex items-center justify-between pt-2">
+            <span class="text-xs text-[#62636A]">Configurable quiz answers in code.</span>
+            <button id="g1-next-btn" type="button" class="hidden px-5 py-2 rounded-full bg-[#17243A] text-white text-xs font-medium hover:bg-[#243757]">Next Question →</button>
+            <button id="g1-restart-btn" type="button" class="hidden px-5 py-2 rounded-full bg-[#D58B68] text-white text-xs font-medium">Play Again</button>
+          </div>
+        </div>
+
+        <!-- Game 02: How Well Do You Know Me? -->
+        <div id="game-panel-knowme" class="game-panel hidden space-y-5">
+          <div class="flex items-center justify-between text-xs font-mono-label text-[#526B85]">
+            <span id="g2-progress">QUESTION 1 OF 5</span>
+            <span>SCORE: <strong id="g2-score" class="text-[#17243A]">0</strong></span>
+          </div>
+          <h3 id="g2-question" class="font-serif-editorial text-2xl font-semibold text-[#17243A]"></h3>
+          <div id="g2-options" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+          <div id="g2-result-box" class="hidden p-5 rounded-2xl paper-surface border border-[#17243A]/10 space-y-2">
+            <div class="text-xs font-mono-label uppercase text-[#D58B68]">YOUR RESULT</div>
+            <div id="g2-rank" class="font-serif-editorial text-2xl font-semibold text-[#17243A]"></div>
+            <p id="g2-summary" class="text-sm text-[#62636A]"></p>
+          </div>
+          <div class="flex justify-end">
+            <button id="g2-restart-btn" type="button" class="hidden px-5 py-2 rounded-full bg-[#17243A] text-white text-xs font-medium">Retake Quiz</button>
+          </div>
+        </div>
+
+        <!-- Game 03: This or That -->
+        <div id="game-panel-thisthat" class="game-panel hidden space-y-6">
+          <div class="flex items-center justify-between text-xs font-mono-label text-[#526B85]">
+            <span id="g3-progress">PAIR 1 OF 5</span>
+            <span>MATCHES: <strong id="g3-matches" class="text-[#17243A]">0</strong></span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <button id="g3-left-btn" type="button" class="p-7 rounded-2xl border border-[#17243A]/15 bg-[#F5F2EC] hover:border-[#D58B68] hover:bg-white transition-all text-center space-y-1">
+              <div class="text-xs font-mono-label text-[#526B85]">OPTION A</div>
+              <div id="g3-left-label" class="font-serif-editorial text-2xl font-semibold text-[#17243A]">Mountains</div>
+            </button>
+            <button id="g3-right-btn" type="button" class="p-7 rounded-2xl border border-[#17243A]/15 bg-[#F5F2EC] hover:border-[#D58B68] hover:bg-white transition-all text-center space-y-1">
+              <div class="text-xs font-mono-label text-[#526B85]">OPTION B</div>
+              <div id="g3-right-label" class="font-serif-editorial text-2xl font-semibold text-[#17243A]">Beaches</div>
+            </button>
+          </div>
+          <div id="g3-reveal" class="min-h-[28px] text-sm text-center text-[#17243A] font-medium"></div>
+          <div class="flex justify-center gap-3">
+            <button id="g3-next-btn" type="button" class="hidden px-5 py-2 rounded-full bg-[#17243A] text-white text-xs font-medium">Next Pair →</button>
+            <button id="g3-reset-btn" type="button" class="hidden px-5 py-2 rounded-full bg-[#D58B68] text-white text-xs font-medium">Play Again</button>
+          </div>
+        </div>
+
+        <!-- Game 04: Random Fact Generator -->
+        <div id="game-panel-fact" class="game-panel hidden text-center max-w-xl mx-auto py-4 space-y-6">
+          <div id="fact-card" class="paper-surface rounded-2xl p-8 border border-[#17243A]/12 space-y-3">
+            <span id="fact-tag" class="inline-block text-[11px] font-mono-label uppercase tracking-widest text-[#D58B68]">DEVELOPER NOTE</span>
+            <p id="fact-text" class="font-serif-editorial text-xl sm:text-2xl text-[#17243A] leading-snug">
+              Click the button below to draw a random note, observation, or configurable personal fact.
+            </p>
+          </div>
+          <button id="fact-draw-btn" type="button" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#17243A] text-white text-sm font-medium hover:bg-[#243757] transition-colors">
+            <i data-lucide="shuffle" class="w-4 h-4"></i>
+            <span>Reveal Another Note</span>
+          </button>
+        </div>
+
+        <!-- Game 05: Hidden Surprises -->
+        <div id="game-panel-eggs" class="game-panel hidden space-y-4">
+          <p class="text-sm text-[#62636A]">Three quiet Easter eggs are tucked into the portfolio. Explore and click around to unlock them:</p>
+          <div id="eggs-checklist" class="grid grid-cols-1 sm:grid-cols-3 gap-4"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- SHARED SECTION: CONTACT                                   -->
+  <!-- ========================================================= -->
+
+  <!-- CONTACT SECTION -->
+  <section id="contact" class="py-20 sm:py-24 border-t border-[#17243A]/10 bg-white/60">
+    <div class="max-w-5xl mx-auto px-5 sm:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <div class="lg:col-span-5 space-y-6">
+        <div class="space-y-2">
+          <div class="text-[11px] font-mono-label tracking-[0.2em] uppercase">
+            <span class="text-[#D58B68]">CONTACT</span> <span class="text-[#526B85]">· SAY HELLO</span>
+          </div>
+          <h2 class="font-serif-editorial text-3xl sm:text-4xl font-semibold text-[#17243A] leading-tight">
+            Have an Idea? Let’s Build Something Meaningful.
+          </h2>
+          <p class="text-sm text-[#62636A] leading-relaxed">
+            Whether it’s a backend system, full-stack product, SuiteCRM customization, or a friendly hello — feel free to reach out.
+          </p>
+        </div>
+
+        <div class="space-y-3">
+          <div class="flex items-center justify-between gap-2 p-3.5 rounded-2xl bg-[#F5F2EC] border border-[#17243A]/10">
+            <div class="flex items-center gap-2.5 min-w-0">
+              <i data-lucide="mail" class="w-4 h-4 text-[#D58B68] shrink-0"></i>
+              <span class="text-xs sm:text-sm font-mono-label text-[#17243A] truncate">daspawan53785@gmail.com</span>
+            </div>
+            <button id="copy-email-btn" type="button" class="px-3 py-1 rounded-full bg-white border border-[#17243A]/15 text-xs font-medium text-[#17243A] hover:bg-[#17243A] hover:text-white transition-colors shrink-0">Copy</button>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2.5 text-xs font-medium">
+            <a href="https://www.linkedin.com/in/pawan-das-555701282" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-white border border-[#17243A]/15 text-[#17243A] hover:border-[#D58B68] hover:bg-[#F5F2EC] transition-colors">
+              <span>LinkedIn</span><i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-[#D58B68]"></i>
+            </a>
+            <a href="https://github.com/Pawandas461" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-white border border-[#17243A]/15 text-[#17243A] hover:border-[#D58B68] hover:bg-[#F5F2EC] transition-colors">
+              <span>GitHub</span><i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-[#D58B68]"></i>
+            </a>
+            <a href="https://www.instagram.com/_pawan_527/" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-white border border-[#17243A]/15 text-[#17243A] hover:border-[#D58B68] hover:bg-[#F5F2EC] transition-colors">
+              <span>Instagram</span><i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-[#D58B68]"></i>
+            </a>
+            <a href="https://www.youtube.com/@AICHIIAAI-02" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-white border border-[#17243A]/15 text-[#17243A] hover:border-[#D58B68] hover:bg-[#F5F2EC] transition-colors">
+              <span>YouTube</span><i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-[#D58B68]"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <form id="contact-form" class="lg:col-span-7 editorial-card rounded-3xl p-6 sm:p-8 space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="cf-name" class="block text-[11px] font-mono-label uppercase text-[#526B85] mb-1.5">Name</label>
+            <input id="cf-name" type="text" required placeholder="Your full name" class="w-full px-4 py-2.5 rounded-xl text-sm bg-[#F5F2EC] border border-[#17243A]/15 focus:outline-none focus:border-[#D58B68]" />
+          </div>
+          <div>
+            <label for="cf-email" class="block text-[11px] font-mono-label uppercase text-[#526B85] mb-1.5">Email</label>
+            <input id="cf-email" type="email" required placeholder="you@example.com" class="w-full px-4 py-2.5 rounded-xl text-sm bg-[#F5F2EC] border border-[#17243A]/15 focus:outline-none focus:border-[#D58B68]" />
+          </div>
+        </div>
+        <div>
+          <label for="cf-subject" class="block text-[11px] font-mono-label uppercase text-[#526B85] mb-1.5">Subject</label>
+          <input id="cf-subject" type="text" required placeholder="Project inquiry, collaboration, or hello" class="w-full px-4 py-2.5 rounded-xl text-sm bg-[#F5F2EC] border border-[#17243A]/15 focus:outline-none focus:border-[#D58B68]" />
+        </div>
+        <div>
+          <label for="cf-message" class="block text-[11px] font-mono-label uppercase text-[#526B85] mb-1.5">Message</label>
+          <textarea id="cf-message" rows="4" required placeholder="Tell me a little about what you're working on..." class="w-full px-4 py-2.5 rounded-xl text-sm bg-[#F5F2EC] border border-[#17243A]/15 focus:outline-none focus:border-[#D58B68] resize-none"></textarea>
+        </div>
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-1">
+          <span id="cf-status" class="text-xs font-medium text-[#526B85]"></span>
+          <button type="submit" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#17243A] text-white text-sm font-medium hover:bg-[#243757] transition-colors">
+            <span>Send Message</span>
+            <i data-lucide="send" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-[#17243A]/10 py-8 text-xs text-[#62636A]">
+    <div class="max-w-5xl mx-auto px-5 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <span>© 2026 Pawan Das · Built with editorial calm.</span>
+        <!-- Easter Egg #3: Subtle compass icon in footer -->
+        <button id="egg-footer-btn" type="button" title="Curious minds click small details" class="text-[#526B85] hover:text-[#D58B68] transition-colors focus:outline-none">
+          <i data-lucide="compass" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+      <div class="flex items-center gap-5 font-mono-label text-[11px]">
+        <a href="#home" class="hover:text-[#17243A] transition-colors">BACK TO TOP ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- PROJECT CASE STUDY MODAL -->
+  <div id="project-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-[#17243A]/60 backdrop-blur-sm">
+    <div class="bg-[#F5F2EC] border border-[#17243A]/15 rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 sm:p-8 space-y-5">
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <span id="pm-num" class="text-xs font-mono-label text-[#D58B68]"></span>
+          <h3 id="pm-title" class="font-serif-editorial text-2xl sm:text-3xl font-semibold text-[#17243A] mt-1"></h3>
+        </div>
+        <button id="pm-close-btn" type="button" aria-label="Close modal" class="p-2 rounded-full bg-white border border-[#17243A]/15 text-[#17243A] hover:bg-[#17243A] hover:text-white transition-colors">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <p id="pm-desc" class="text-sm leading-relaxed text-[#62636A]"></p>
+      <div id="pm-tags" class="flex flex-wrap gap-2"></div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+        <div class="bg-white rounded-2xl p-4 border border-[#17243A]/10 space-y-1">
+          <div class="text-[11px] font-mono-label uppercase text-[#D58B68]">My Role</div>
+          <p id="pm-role" class="text-xs sm:text-sm text-[#20232B]"></p>
+        </div>
+        <div class="bg-white rounded-2xl p-4 border border-[#17243A]/10 space-y-1">
+          <div class="text-[11px] font-mono-label uppercase text-[#D58B68]">Key Features</div>
+          <p id="pm-features" class="text-xs sm:text-sm text-[#20232B]"></p>
+        </div>
+        <div class="bg-white rounded-2xl p-4 border border-[#17243A]/10 space-y-1">
+          <div class="text-[11px] font-mono-label uppercase text-[#526B85]">Main Challenges (Editable)</div>
+          <p id="pm-challenges" class="text-xs sm:text-sm text-[#62636A]"></p>
+        </div>
+        <div class="bg-white rounded-2xl p-4 border border-[#17243A]/10 space-y-1">
+          <div class="text-[11px] font-mono-label uppercase text-[#526B85]">Solutions Implemented (Editable)</div>
+          <p id="pm-solutions" class="text-xs sm:text-sm text-[#62636A]"></p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-[#17243A]/10 text-xs">
+        <span class="font-mono-label text-[#526B85]">GitHub &amp; Live Demo URLs: Editable placeholders (add verified links)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESUME PREVIEW & DOWNLOAD MODAL -->
+  <div id="resume-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-[#17243A]/60 backdrop-blur-sm">
+    <div class="bg-white border border-[#17243A]/15 rounded-3xl max-w-xl w-full max-h-[88vh] overflow-y-auto shadow-2xl p-6 sm:p-8 space-y-5">
+      <div class="flex items-start justify-between">
+        <div>
+          <div class="text-[11px] font-mono-label uppercase text-[#D58B68]">RÉSUMÉ SUMMARY</div>
+          <h3 class="font-serif-editorial text-2xl font-semibold text-[#17243A]">Pawan Das</h3>
+          <p class="text-xs text-[#62636A]">Software Developer / Full-Stack Developer · PHP &amp; Laravel Specialist</p>
+        </div>
+        <button id="resume-close-btn" type="button" class="p-2 rounded-full border border-[#17243A]/15 text-[#17243A]">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-xs sm:text-sm text-[#20232B] border-y border-[#17243A]/10 py-4">
+        <p><strong>Current:</strong> Software Developer at Encompass Financial Services (Joined Oct 2026) — Enterprise software solutions &amp; SuiteCRM customization.</p>
+        <p><strong>Previous:</strong> Software Developer at Webmaddy Pvt. Ltd. (Jan 2025 – Oct 2026) — Laravel, PHP, Node.js, Next.js, NestJS, MongoDB, Supabase (~20–25 projects).</p>
+        <p><strong>Internship:</strong> Web Developer Intern at Wild Web Digital Pvt. Ltd. (Oct 2024 – Nov 2024 · 2 Months) — Web development, feature implementation &amp; backend practice.</p>
+        <p><strong>Contact:</strong> daspawan53785@gmail.com · <a href="https://www.linkedin.com/in/pawan-das-555701282" target="_blank" rel="noopener noreferrer" class="text-[#D58B68] underline underline-offset-2">LinkedIn</a> · <a href="https://github.com/Pawandas461" target="_blank" rel="noopener noreferrer" class="text-[#D58B68] underline underline-offset-2">GitHub</a></p>
+      </div>
+
+      <div class="flex flex-wrap justify-end gap-2">
+        <button id="resume-download-txt-btn" type="button" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#17243A] text-white text-xs font-medium hover:bg-[#243757]">
+          <i data-lucide="download" class="w-3.5 h-3.5"></i>
+          <span>Download Résumé (.txt)</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 px-4 py-3 rounded-2xl bg-[#17243A] text-[#F5F2EC] text-xs sm:text-sm shadow-xl translate-y-20 opacity-0 pointer-events-none transition-all duration-300">
+    <span id="toast-msg">Done</span>
+  </div>
+
+  <script>
+    (function () {
+      // ==========================================
+      // 1. VERIFIED DATA & EDITABLE CONFIGS
+      // ==========================================
+      const TIMELINE = [
+        {
+          id: 'encompass',
+          monogram: 'EF',
+          company: 'Encompass Financial Services',
+          role: 'Software Developer',
+          period: 'Joined October 2026 – Present',
+          status: 'Current',
+          summary: 'Working with enterprise-oriented software solutions and CRM customization.',
+          details: [
+            'Enterprise-oriented software solutions and CRM customization.',
+            'Experience with SuiteCRM customization and development.',
+            'Editable note: Add specific modules or milestones as your work progresses.'
+          ],
+          tech: ['SuiteCRM', 'PHP', 'CRM Customization', 'Enterprise Software']
+        },
+        {
+          id: 'webmaddy',
+          monogram: 'WM',
+          company: 'Webmaddy Pvt. Ltd.',
+          role: 'Software Developer',
+          period: 'January 2025 – October 2026',
+          status: '1.8+ Years',
+          summary: 'Worked across approximately 20–25 projects spanning PHP/Laravel and modern JavaScript stacks.',
+          details: [
+            'Worked primarily with Laravel and PHP during the initial months.',
+            'Subsequently worked with Node.js, Next.js, NestJS, MongoDB, Supabase, and related technologies.',
+            'Delivered backend development, web applications, integrations, and database-driven systems across ~20–25 projects.'
+          ],
+          tech: ['PHP', 'Laravel', 'Node.js', 'Next.js', 'NestJS', 'MongoDB', 'Supabase']
+        },
+        {
+          id: 'wildweb',
+          monogram: 'WW',
+          company: 'Wild Web Digital Pvt. Ltd.',
+          role: 'Web Developer Intern',
+          period: 'October 2024 – November 2024 (2 Months)',
+          status: 'Internship · 2 Months',
+          summary: 'Two-month web developer internship focused on practical web development and feature implementation.',
+          details: [
+            'Completed a 2-month Web Developer internship from October 2024 to November 2024.',
+            'Contributed to web application development, feature implementation, and backend tasks.',
+            'Editable note: Add specific internship projects or takeaways anytime.'
+          ],
+          tech: ['Web Development', 'HTML5', 'CSS3', 'JavaScript', 'PHP']
+        }
+      ];
+
+      const SKILL_CATEGORIES = [
+        {
+          id: 'backend',
+          title: 'Backend Development',
+          icon: 'server',
+          items: [
+            { name: 'PHP', rel: ['Laravel', 'Core PHP', 'MySQL', 'Composer', 'SuiteCRM Customization'] },
+            { name: 'Laravel', rel: ['PHP', 'MySQL', 'Composer', 'REST API Development', 'Authentication'] },
+            { name: 'Core PHP', rel: ['PHP', 'MySQL', 'XAMPP', 'phpMyAdmin'] },
+            { name: 'Node.js', rel: ['NestJS', 'JavaScript', 'TypeScript', 'MongoDB', 'Supabase', 'REST API Development'] },
+            { name: 'NestJS', rel: ['Node.js', 'TypeScript', 'PostgreSQL', 'REST API Development'] },
+            { name: 'REST API Development', rel: ['Laravel', 'Node.js', 'NestJS', 'API Integration', 'Authentication'] }
+          ]
+        },
+        {
+          id: 'frontend',
+          title: 'Frontend Development',
+          icon: 'layout',
+          items: [
+            { name: 'HTML5', rel: ['CSS3', 'JavaScript', 'Bootstrap 5'] },
+            { name: 'CSS3', rel: ['HTML5', 'Bootstrap 5'] },
+            { name: 'JavaScript', rel: ['TypeScript', 'React', 'Next.js', 'Vue.js', 'Node.js', 'jQuery', 'AJAX'] },
+            { name: 'TypeScript', rel: ['JavaScript', 'Next.js', 'NestJS', 'React'] },
+            { name: 'Bootstrap 5', rel: ['HTML5', 'CSS3', 'PHP'] },
+            { name: 'React', rel: ['Next.js', 'JavaScript', 'TypeScript'] },
+            { name: 'Next.js', rel: ['React', 'Node.js', 'TypeScript', 'Supabase'] },
+            { name: 'Vue.js', rel: ['JavaScript', 'Laravel'] },
+            { name: 'jQuery', rel: ['JavaScript', 'AJAX', 'PHP'] },
+            { name: 'AJAX', rel: ['jQuery', 'JavaScript', 'REST API Development'] }
+          ]
+        },
+        {
+          id: 'databases',
+          title: 'Databases',
+          icon: 'database',
+          items: [
+            { name: 'MySQL', rel: ['PHP', 'Laravel', 'phpMyAdmin', 'MySQL Workbench', 'Database Design'] },
+            { name: 'MongoDB', rel: ['Node.js', 'Next.js', 'Database Design'] },
+            { name: 'PostgreSQL', rel: ['Supabase', 'NestJS', 'Database Design'] },
+            { name: 'Supabase', rel: ['PostgreSQL', 'Node.js', 'Next.js', 'Authentication'] }
+          ]
+        },
+        {
+          id: 'languages',
+          title: 'Programming Languages',
+          icon: 'code-2',
+          items: [
+            { name: 'PHP', rel: ['Laravel', 'Core PHP', 'SuiteCRM Customization'] },
+            { name: 'JavaScript', rel: ['Node.js', 'React', 'Next.js', 'Vue.js'] },
+            { name: 'TypeScript', rel: ['Next.js', 'NestJS', 'React'] },
+            { name: 'Java', rel: ['C++', 'C'] },
+            { name: 'C', rel: ['C++', 'Java'] },
+            { name: 'C++', rel: ['C', 'Java'] },
+            { name: 'Python (Basic)', rel: ['REST API Development'] }
+          ]
+        },
+        {
+          id: 'tools',
+          title: 'Tools & Dev Environment',
+          icon: 'wrench',
+          items: [
+            { name: 'Git', rel: ['GitHub', 'VS Code'] },
+            { name: 'GitHub', rel: ['Git', 'Application Deployment'] },
+            { name: 'Composer', rel: ['PHP', 'Laravel'] },
+            { name: 'XAMPP', rel: ['Core PHP', 'MySQL', 'phpMyAdmin'] },
+            { name: 'phpMyAdmin', rel: ['MySQL', 'XAMPP', 'Database Design'] },
+            { name: 'MySQL Workbench', rel: ['MySQL', 'Database Design'] },
+            { name: 'VS Code', rel: ['Git', 'PHP', 'JavaScript'] }
+          ]
+        },
+        {
+          id: 'other',
+          title: 'Other Experience',
+          icon: 'layers',
+          items: [
+            { name: 'SuiteCRM Customization', rel: ['PHP', 'CRM Module Development', 'MySQL'] },
+            { name: 'CRM Module Development', rel: ['SuiteCRM Customization', 'PHP'] },
+            { name: 'Database Design', rel: ['MySQL', 'PostgreSQL', 'MongoDB'] },
+            { name: 'API Integration', rel: ['REST API Development', 'Third-party Service Integration'] },
+            { name: 'Authentication', rel: ['Laravel', 'Supabase', 'REST API Development'] },
+            { name: 'Application Deployment', rel: ['GitHub', 'Laravel', 'Node.js'] },
+            { name: 'Third-party Service Integration', rel: ['API Integration', 'REST API Development'] }
+          ]
+        }
+      ];
+
+      const PROJECTS = [
+        {
+          num: '01',
+          id: 'tourism',
+          title: 'Tourism Management System',
+          group: 'php',
+          short: 'Final-year academic project built to manage tourism workflows, listings, and database records.',
+          tech: ['PHP', 'MySQL', 'Bootstrap 5'],
+          role: 'Full-Stack Developer (Final-Year Academic Project)',
+          features: 'Tourism-related management functionality, responsive Bootstrap 5 interface, and MySQL database backing.',
+          challenges: 'Editable placeholder — add the primary data modeling or booking workflow challenge you solved.',
+          solutions: 'Editable placeholder — add how you structured PHP & MySQL queries and UI flows.',
+          accent: '#526B85'
+        },
+        {
+          num: '02',
+          id: 'eria',
+          title: 'ERIA Events Platform',
+          group: 'php',
+          short: 'Event-related web platform engineered with Laravel for structured event management and delivery.',
+          tech: ['Laravel', 'PHP', 'MySQL'],
+          role: 'Backend / Laravel Developer',
+          features: 'Event-related web platform built on Laravel MVC architecture.',
+          challenges: 'Editable placeholder — describe event scheduling, access, or content workflow challenges.',
+          solutions: 'Editable placeholder — outline Laravel controllers, migrations, and integrations used.',
+          accent: '#D58B68'
+        },
+        {
+          num: '03',
+          id: 'legal',
+          title: 'Legal Management System',
+          group: 'node',
+          short: 'Full-stack backend and frontend application developed with Node.js and Next.js.',
+          tech: ['Node.js', 'Next.js', 'JavaScript'],
+          role: 'Backend & Frontend Developer',
+          features: 'Structured backend APIs paired with a modern Next.js frontend application.',
+          challenges: 'Editable placeholder — note key legal record organization or permission requirements.',
+          solutions: 'Editable placeholder — summarize API architecture and Next.js frontend patterns.',
+          accent: '#17243A'
+        },
+        {
+          num: '04',
+          id: 'kng',
+          title: 'KNG Auctions Platform',
+          group: 'node',
+          short: 'Online auction platform powered by Node.js, Supabase, and MongoDB database integrations.',
+          tech: ['Node.js', 'Supabase', 'MongoDB'],
+          role: 'Backend / Full-Stack Developer',
+          features: 'Online auction platform workflows with Supabase and MongoDB database integrations.',
+          challenges: 'Editable placeholder — add auction timing, bidding state, or data synchronization challenges.',
+          solutions: 'Editable placeholder — describe backend endpoints and database integration strategy.',
+          accent: '#526B85'
+        },
+        {
+          num: '05',
+          id: 'jobfinder',
+          title: 'JobFinder',
+          group: 'php',
+          short: 'Job-related web application developed with Laravel for listing and connecting opportunities.',
+          tech: ['Laravel', 'PHP'],
+          role: 'Laravel Developer',
+          features: 'Job-related web application built using Laravel’s routing, Eloquent ORM, and authentication.',
+          challenges: 'Editable placeholder — add search, filtering, or role-management challenges.',
+          solutions: 'Editable placeholder — add Laravel implementation details.',
+          accent: '#D58B68'
+        },
+        {
+          num: '06',
+          id: 'inventory',
+          title: 'Product Inventory System',
+          group: 'php',
+          short: 'Structured product and inventory management application built with PHP MVC architecture.',
+          tech: ['PHP MVC', 'MySQL'],
+          role: 'Backend Developer',
+          features: 'Product and inventory management structured cleanly around PHP MVC separation of concerns.',
+          challenges: 'Editable placeholder — note stock tracking or MVC architecture challenges.',
+          solutions: 'Editable placeholder — detail custom MVC routing, models, and database design.',
+          accent: '#17243A'
+        },
+        {
+          num: '07',
+          id: 'suitecrm',
+          title: 'SuiteCRM Customization',
+          group: 'crm',
+          short: 'Enterprise SuiteCRM 7.x customization covering custom modules, fields, relationships, subpanels, and workflows.',
+          tech: ['SuiteCRM 7.x', 'PHP', 'CRM Workflows'],
+          role: 'CRM & Backend Developer',
+          features: 'Custom modules, fields, relationships, subpanels, and tailored business workflows in SuiteCRM 7.x.',
+          challenges: 'Editable placeholder — describe enterprise workflow or upgrade-safe customization constraints.',
+          solutions: 'Editable placeholder — outline upgrade-safe SuiteCRM hooks, metadata, and module extensions.',
+          accent: '#D58B68'
+        }
+      ];
+
+      // Personal Mode Data (Editable placeholders — zero fabricated personal facts)
+      const SCRAPBOOK_SLOTS = [
+        { id: 's1', rot: '-2deg', caption: 'Everyday moment #01 (add photo)' },
+        { id: 's2', rot: '1.8deg', caption: 'Travel or nature memory #02' },
+        { id: 's3', rot: '-1.2deg', caption: 'Candid / funny snapshot #03' },
+        { id: 's4', rot: '2.2deg', caption: 'Favourite quiet corner #04' }
+      ];
+
+      const LOVES_DATA = {
+        Food: 'Editable slot — add your go-to comfort dishes, street food favourites, or home-cooked meals.',
+        Music: 'Editable slot — share the artists, playlists, or genres that keep you in flow while coding or relaxing.',
+        Places: 'Editable slot — list favourite destinations, quiet spots, or places you love visiting.',
+        Technology: 'Clean backend architecture, PHP & Laravel, modern JS frameworks, databases, and thoughtful developer tools.',
+        Entertainment: 'Editable slot — add favourite films, series, or channels you enjoy unwinding with.',
+        Hobbies: 'Editable slot — share what you enjoy doing away from the keyboard.',
+        Activities: 'Editable slot — add sports, walks, photography, or other favourite activities.'
+      };
+
+      const BUCKET_LIST = [
+        { text: 'Editable goal 01 — Add a personal travel or life experience you want to achieve', done: false },
+        { text: 'Editable goal 02 — Launch a personal software product from scratch', done: false },
+        { text: 'Editable goal 03 — Add a skill or hobby you want to master outside work', done: false }
+      ];
+
+      // Playground Games Data
+      const G1_QUESTIONS = [
+        { q: 'What is Pawan’s primary backend specialization?', opts: ['PHP & Laravel', 'Swift & iOS', 'Unity Game Dev', 'Embedded Rust'], ans: 0 },
+        { q: 'Which enterprise CRM platform does Pawan customize?', opts: ['SuiteCRM 7.x', 'SAP Ariba', 'Oracle Siebel', 'Jira Core'], ans: 0 },
+        { q: 'Approximately how many projects did Pawan work on at Webmaddy?', opts: ['3–5 projects', '20–25 projects', '100+ projects', '1 project'], ans: 1 },
+        { q: 'Which trait best describes Pawan’s approach to learning?', opts: ['Curious learner exploring new tech', 'Sticks to only one language', 'Avoids databases', 'Only does print design'], ans: 0 }
+      ];
+
+      const G2_QUESTIONS = [
+        { q: 'Which company did Pawan join in October 2026?', opts: ['Encompass Financial Services', 'Webmaddy Pvt. Ltd.', 'Wild Web Digital Pvt. Ltd.', 'Freelance Studio'], ans: 0 },
+        { q: 'Which database stack has Pawan worked with alongside Node.js & Next.js?', opts: ['MongoDB & Supabase', 'Cassandra only', 'MS Access only', 'Neo4j only'], ans: 0 },
+        { q: 'What was Pawan’s final-year academic project?', opts: ['Tourism Management System', 'KNG Auctions Platform', 'JobFinder', 'ERIA Events Platform'], ans: 0 },
+        { q: 'What is the core philosophy of this portfolio?', opts: ['Professional first. Personality second.', 'Games only, no resume.', 'Dark neon gaming style.', 'Minimal text only.'], ans: 0 },
+        { q: 'Which architecture was used for the Product Inventory System?', opts: ['PHP MVC Architecture', 'Flutter Mobile', 'C++ Desktop', 'GraphQL Micro-frontends'], ans: 0 }
+      ];
+
+      const G3_PAIRS = [
+        { a: 'Mountains', b: 'Beaches', pawan: 'a', note: 'Configurable preference — swap in code if you prefer Beaches!' },
+        { a: 'Tea', b: 'Coffee', pawan: 'a', note: 'Configurable preference — update to match your real cup of choice.' },
+        { a: 'Movies', b: 'Web Series', pawan: 'b', note: 'Configurable preference — edit anytime.' },
+        { a: 'Night Owl', b: 'Early Bird', pawan: 'a', note: 'Configurable preference — edit anytime.' },
+        { a: 'Coding', b: 'Exploring', pawan: 'b', note: 'Why not both? Configurable preference — edit anytime.' }
+      ];
+
+      const RANDOM_FACTS = [
+        { tag: 'BACKEND CRAFT', text: 'I enjoy designing clean database schemas and APIs that stay predictable as projects grow.' },
+        { tag: 'CURIOSITY', text: 'Working across ~20–25 projects taught me how to adapt quickly to new frameworks and requirements.' },
+        { tag: 'PERSONAL NOTE', text: 'Editable fact slot — add a funny habit, favourite snack, or unexpected skill about yourself.' },
+        { tag: 'DESIGN PHILOSOPHY', text: 'Professional first, personality second, creativity throughout.' },
+        { tag: 'FUN OBSERVATION', text: 'Editable fact slot — share a lighthearted observation or memorable moment from your developer journey.' }
+      ];
+
+      // State
+      let activeMode = 'professional';
+      let activeSkillCat = null;
+      let lastScrollOrbitIdx = -1;
+      let activeProjFilter = 'all';
+      let g1Idx = 0, g1Score = 0, g1Locked = false;
+      let g2Idx = 0, g2Score = 0, g2Locked = false;
+      let g3Idx = 0, g3Matches = 0, g3Locked = false;
+      let factIdx = -1;
+      let logoClicks = 0;
+      const foundEggs = { logo: false, star: false, footer: false };
+      let toastTimer = null;
+
+      function showToast(msg) {
+        const t = document.getElementById('toast');
+        document.getElementById('toast-msg').textContent = msg;
+        t.classList.remove('translate-y-20', 'opacity-0');
+        t.classList.add('translate-y-0', 'opacity-100');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+          t.classList.add('translate-y-20', 'opacity-0');
+          t.classList.remove('translate-y-0', 'opacity-100');
+        }, 2800);
+      }
+
+      // ==========================================
+      // 2. MODE SWITCHING (PROFESSIONAL | PERSONAL)
+      // ==========================================
+      function setMode(mode) {
+        activeMode = mode;
+        const proView = document.getElementById('professional-view');
+        const perView = document.getElementById('personal-view');
+        const proBtn = document.getElementById('mode-pro-btn');
+        const perBtn = document.getElementById('mode-personal-btn');
+
+        if (mode === 'personal') {
+          document.body.classList.add('personal-mode');
+          proView.classList.add('hidden');
+          perView.classList.remove('hidden');
+          perBtn.className = 'px-3 py-1 rounded-full bg-[#D58B68] text-[#17243A] font-semibold transition-all';
+          proBtn.className = 'px-3 py-1 rounded-full text-[#F5F2EC]/80 hover:text-white transition-all';
+          if (typeof gsap !== 'undefined') {
+            gsap.fromTo(perView, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' });
+          }
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          showToast('Switched to Personal Mode — Digital Journal');
+        } else {
+          document.body.classList.remove('personal-mode');
+          perView.classList.add('hidden');
+          proView.classList.remove('hidden');
+          proBtn.className = 'px-3 py-1 rounded-full bg-[#D58B68] text-[#17243A] font-semibold transition-all';
+          perBtn.className = 'px-3 py-1 rounded-full text-[#F5F2EC]/80 hover:text-white transition-all';
+          if (typeof gsap !== 'undefined') {
+            gsap.fromTo(proView, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' });
+          }
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          if (typeof ScrollTrigger !== 'undefined') setTimeout(() => ScrollTrigger.refresh(), 80);
+          showToast('Switched to Professional Mode');
+        }
+      }
+
+      // ==========================================
+      // 3. TIMELINE RENDERING
+      // ==========================================
+      function renderTimeline() {
+        const container = document.getElementById('timeline-list');
+        container.innerHTML = TIMELINE.map((item, idx) => `
+          <div class="relative">
+            <span class="timeline-dot absolute -left-[27px] sm:-left-[31px] top-6 -translate-y-1/2 w-3.5 h-3.5 rounded-full border-2 border-[#17243A] bg-[#F5F2EC] z-10 transition-colors duration-300"></span>
+            <div class="editorial-card rounded-2xl p-5 sm:p-6">
+              <button type="button" data-tl-toggle="${item.id}" class="tl-toggle-btn w-full text-left flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="flex items-start gap-4">
+                  <span class="w-11 h-11 rounded-xl bg-[#17243A] text-[#F5F2EC] font-serif-editorial font-semibold text-sm flex items-center justify-center shrink-0">${item.monogram}</span>
+                  <div>
+                    <div class="flex flex-wrap items-center gap-2">
+                      <h3 class="font-serif-editorial text-xl font-semibold text-[#17243A]">${item.company}</h3>
+                      <span class="text-[10px] font-mono-label uppercase px-2 py-0.5 rounded-full ${idx === 0 ? 'bg-[#D58B68]/20 text-[#17243A]' : 'bg-[#EFECE4] text-[#526B85]'}">${item.status}</span>
+                    </div>
+                    <div class="text-sm font-medium text-[#526B85] mt-0.5">${item.role}</div>
+                    <p class="text-sm text-[#62636A] mt-1.5">${item.summary}</p>
+                  </div>
+                </div>
+                <div class="flex items-center justify-between sm:flex-col sm:items-end gap-2 shrink-0">
+                  <span class="text-xs font-mono-label text-[#526B85]">${item.period}</span>
+                  <span class="inline-flex items-center gap-1 text-xs font-medium text-[#D58B68]">
+                    <span>Details</span>
+                    <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
+                  </span>
+                </div>
+              </button>
+
+              <div id="tl-body-${item.id}" class="${idx === 0 ? '' : 'hidden'} mt-5 pt-4 border-t border-[#17243A]/10 space-y-4">
+                <ul class="space-y-2 text-sm text-[#62636A]">
+                  ${item.details.map((d) => `<li class="flex items-start gap-2"><span class="text-[#D58B68] mt-1">•</span><span>${d}</span></li>`).join('')}
+                </ul>
+                <div class="flex flex-wrap gap-1.5">
+                  ${item.tech.map((t) => `<span class="px-3 py-1 rounded-full bg-[#F5F2EC] border border-[#17243A]/10 text-xs font-mono-label text-[#17243A]">${t}</span>`).join('')}
+                </div>
+              </div>
+            </div>
+          </div>
+        `).join('');
+
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+        container.querySelectorAll('.tl-toggle-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const body = document.getElementById('tl-body-' + btn.dataset.tlToggle);
+            if (body) {
+              body.classList.toggle('hidden');
+              if (typeof ScrollTrigger !== 'undefined') setTimeout(() => ScrollTrigger.refresh(), 50);
+            }
+          });
+        });
+      }
+
+      // ==========================================
+      // 4. TECHNICAL SKILLS + RELATIONSHIP HOVER
+      // ==========================================
+      function renderSkillTabs() {
+        const tabs = document.getElementById('skill-category-tabs');
+        const catTabs = SKILL_CATEGORIES.map((c) => ({ id: c.id, title: c.title.split(' ')[0] }));
+        tabs.innerHTML = catTabs.map((t) => `
+          <button type="button" data-skill-cat="${t.id}" class="skill-cat-btn px-3 py-1 rounded-full text-xs font-medium ${activeSkillCat === t.id ? 'bg-[#17243A] text-white' : 'bg-white border border-[#17243A]/15 text-[#17243A]'}">${t.title}</button>
+        `).join('');
+
+        tabs.querySelectorAll('.skill-cat-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            activeSkillCat = btn.dataset.skillCat;
+            renderSkillTabs();
+            renderSkills();
+          });
+        });
+      }
+
+      function renderOrbitCards() {
+        const host = document.getElementById('skills-orbit-cards');
+        if (!host) return;
+        host.innerHTML = SKILL_CATEGORIES.map((cat, idx) => `
+          <button type="button" data-orbit-cat="${cat.id}" data-orbit-idx="${idx}" class="skill-round-card ${activeSkillCat === cat.id ? 'orbit-active' : ''}">
+            <span class="w-8 h-8 rounded-full bg-[#F5F2EC] border border-[#17243A]/10 text-[#17243A] flex items-center justify-center mb-1.5">
+              <i data-lucide="${cat.icon}" class="w-4 h-4"></i>
+            </span>
+            <span class="font-serif-editorial text-xs sm:text-sm font-semibold text-[#17243A] leading-tight">${cat.title}</span>
+            <span class="text-[10px] font-mono-label text-[#D58B68] mt-1">${cat.items.length} skills</span>
+          </button>
+        `).join('');
+
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+
+        host.querySelectorAll('.skill-round-card').forEach((card) => {
+          card.addEventListener('click', () => {
+            activeSkillCat = card.dataset.orbitCat;
+            renderSkillTabs();
+            renderSkills();
+            host.querySelectorAll('.skill-round-card').forEach((c) => {
+              c.classList.toggle('orbit-active', c.dataset.orbitCat === activeSkillCat);
+            });
+          });
+        });
+      }
+
+      function initSkillsOrbitScroll() {
+        if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+        const section = document.getElementById('skills');
+        const stage = document.getElementById('skill-orbit-stage');
+        const ring = document.getElementById('skill-orbit-ring');
+        const progressLabel = document.getElementById('orbit-progress-label');
+        const countLabel = document.getElementById('orbit-count-label');
+        const cards = Array.from(document.querySelectorAll('.skill-round-card'));
+        if (!section || !stage || cards.length === 0) return;
+
+        const N = cards.length; // 6 cards
+        const stepAngle = (Math.PI * 2) / N; // 60 degrees per card
+        const entryAngle = -Math.PI / 2; // 12 o'clock top entry
+
+        function easeOutCubic(t) {
+          return 1 - Math.pow(1 - t, 3);
+        }
+
+        function easeInOutQuad(t) {
+          return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+        }
+
+        function positionCards(progress) {
+          const w = stage.offsetWidth || 800;
+          const h = stage.offsetHeight || 410;
+          const isMobile = w < 640;
+          const radius = isMobile ? Math.min(w * 0.31, 112) : Math.min(w * 0.25, h * 0.34, 134);
+          if (ring) {
+            ring.style.width = (radius * 2) + 'px';
+            ring.style.height = (radius * 2) + 'px';
+          }
+
+          // 0.0 -> 0.90: 6 sequential slices (one per card), 0.90 -> 1.0: hold complete circle
+          const scaled = Math.min(N, (progress / 0.90) * N);
+          let visibleCount = 0;
+          let latestIdx = -1;
+
+          cards.forEach((card, i) => {
+            // Card i rises straight up from bottom during [i, i + 1]
+            // Once arrived (scaled > i + 1), it smoothly turns LEFT by 60deg for each subsequent card that enters!
+            const riseRaw = scaled - i;
+
+            let x = 0;
+            let y = h * 0.65;
+            let opacity = 0;
+            let scale = 0.72;
+
+            if (riseRaw <= 0) {
+              x = 0;
+              y = h * 0.65;
+              opacity = 0;
+              scale = 0.72;
+            } else if (riseRaw < 1) {
+              // Rising straight up from bottom to 12 o'clock entry point
+              const t = easeOutCubic(riseRaw);
+              x = 0;
+              y = (h * 0.65) + ((-radius) - (h * 0.65)) * t;
+              opacity = Math.min(1, riseRaw * 2.2);
+              scale = 0.78 + 0.22 * t;
+              visibleCount++;
+              latestIdx = i;
+            } else {
+              // Already reached top -> curves LEFT (counter-clockwise) in smooth 60-degree steps as newer cards arrive
+              const orbitSteps = Math.min((N - 1) - i, scaled - (i + 1));
+              const whole = Math.floor(orbitSteps);
+              const frac = easeInOutQuad(orbitSteps - whole);
+              const smoothSteps = whole + frac;
+              const angle = entryAngle - smoothSteps * stepAngle;
+              x = Math.cos(angle) * radius;
+              y = Math.sin(angle) * radius;
+              opacity = 1;
+              scale = 1;
+              visibleCount++;
+              latestIdx = i;
+            }
+
+            gsap.set(card, { x: x, y: y, scale: scale, opacity: opacity, zIndex: 10 + i, force3D: true });
+          });
+
+          if (countLabel) countLabel.textContent = `${visibleCount} / ${N} Formed`;
+          if (progressLabel) {
+            progressLabel.textContent = progress >= 0.90 ? 'CIRCLE COMPLETE · SCROLL ON' : 'SCROLL TO ASSEMBLE';
+          }
+
+          if (latestIdx !== lastScrollOrbitIdx) {
+            lastScrollOrbitIdx = latestIdx;
+            activeSkillCat = latestIdx >= 0 ? SKILL_CATEGORIES[latestIdx].id : null;
+            renderSkillTabs();
+            renderSkills();
+          }
+        }
+
+        positionCards(0);
+
+        ScrollTrigger.create({
+          trigger: section,
+          start: 'top top',
+          end: '+=1800',
+          pin: true,
+          pinSpacing: true,
+          scrub: 0.6,
+          anticipatePin: 1,
+          refreshPriority: 20,
+          onUpdate: (self) => positionCards(self.progress)
+        });
+
+        window.addEventListener('resize', () => {
+          ScrollTrigger.refresh();
+        });
+      }
+
+      function renderSkills() {
+        const grid = document.getElementById('skills-grid');
+        const activeCatObj = SKILL_CATEGORIES.find((c) => c.id === activeSkillCat);
+        if (!activeCatObj) {
+          grid.innerHTML = `
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="text-xs font-mono-label uppercase text-[#526B85]">
+                START SCROLLING TO REVEAL EACH CAPABILITY &amp; ITS TECHNOLOGIES
+              </div>
+              <span class="text-[11px] font-mono-label text-[#D58B68]">Waiting for card 01 / 06</span>
+            </div>
+          `;
+          document.querySelectorAll('.skill-round-card').forEach((c) => c.classList.remove('orbit-active'));
+          return;
+        }
+
+        const idxNum = String(SKILL_CATEGORIES.indexOf(activeCatObj) + 1).padStart(2, '0');
+        grid.innerHTML = `
+          <div class="space-y-2.5">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="text-[11px] font-mono-label px-2 py-0.5 rounded-full bg-[#D58B68]/15 text-[#D58B68] font-medium">CARD ${idxNum}</span>
+                <span class="font-serif-editorial text-base font-semibold text-[#17243A]">${activeCatObj.title}</span>
+              </div>
+              <span class="text-[11px] font-mono-label text-[#526B85]">${activeCatObj.items.length} technologies · hover to see links</span>
+            </div>
+            <div class="flex flex-wrap gap-1.5">
+              ${activeCatObj.items.map((sk) => `
+                <span class="skill-chip px-3 py-1 rounded-full text-xs font-medium text-[#20232B] cursor-default" data-skill-name="${sk.name}" data-skill-rel="${sk.rel.join('|')}">${sk.name}</span>
+              `).join('')}
+            </div>
+          </div>
+        `;
+
+        const chips = grid.querySelectorAll('.skill-chip');
+        chips.forEach((chip) => {
+          chip.addEventListener('mouseenter', () => {
+            const name = chip.dataset.skillName;
+            const rels = (chip.dataset.skillRel || '').split('|');
+            chips.forEach((other) => {
+              const oName = other.dataset.skillName;
+              if (oName === name || rels.includes(oName)) {
+                other.classList.add('skill-related');
+                other.classList.remove('skill-dimmed');
+              } else {
+                other.classList.add('skill-dimmed');
+                other.classList.remove('skill-related');
+              }
+            });
+          });
+          chip.addEventListener('mouseleave', () => {
+            chips.forEach((other) => other.classList.remove('skill-related', 'skill-dimmed'));
+          });
+        });
+
+        document.querySelectorAll('.skill-round-card').forEach((c) => {
+          c.classList.toggle('orbit-active', c.dataset.orbitCat === activeSkillCat);
+        });
+      }
+
+      // ==========================================
+      // 5. PROJECTS SHOWCASE & CASE STUDY MODAL
+      // ==========================================
+      let projectsScrollTrigger = null;
+      let projectsInitReady = false;
+
+      function initProjectsStackScroll() {
+        if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+        if (projectsScrollTrigger) {
+          projectsScrollTrigger.kill();
+          projectsScrollTrigger = null;
+        }
+
+        const section = document.getElementById('projects');
+        const counter = document.getElementById('project-stack-counter');
+        const cards = Array.from(document.querySelectorAll('.project-stack-card'));
+        const total = cards.length;
+        if (!section || total === 0) return;
+
+        if (counter) counter.textContent = `01 / ${String(total).padStart(2, '0')}`;
+
+        // Place card 0 cleanly in view; queue subsequent cards off the bottom of the viewport
+        cards.forEach((card, i) => {
+          gsap.set(card, {
+            y: i === 0 ? 0 : Math.max(window.innerHeight * 0.92, 680),
+            scale: 1,
+            opacity: i === 0 ? 1 : 0,
+            zIndex: 10 + i
+          });
+        });
+
+        if (total === 1) {
+          ScrollTrigger.refresh();
+          return;
+        }
+
+        const stepGap = 1.45; // breathing gap between consecutive project card arrivals
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: 'top top',
+            end: () => '+=' + ((total - 1) * 540 + 220),
+            pin: true,
+            pinSpacing: true,
+            scrub: 1.35,
+            anticipatePin: 1,
+            refreshPriority: 10,
+            onUpdate: (self) => {
+              if (!counter) return;
+              const activeIdx = Math.min(total - 1, Math.floor(self.progress * total));
+              counter.textContent = `${String(activeIdx + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}`;
+            }
+          }
+        });
+
+        for (let i = 1; i < total; i++) {
+          const at = (i - 1) * stepGap + 0.2;
+          const stackOffsetY = Math.min(i * 12, 60);
+          tl.to(cards[i - 1], {
+            scale: 0.96,
+            opacity: 0.55,
+            duration: 1,
+            ease: 'power1.inOut'
+          }, at);
+          tl.to(cards[i], {
+            y: stackOffsetY,
+            opacity: 1,
+            duration: 1,
+            ease: 'power2.out'
+          }, at);
+        }
+        // Small hold at the end so the final project card stays visible before releasing scroll
+        tl.to({}, { duration: 0.35 });
+
+        projectsScrollTrigger = tl.scrollTrigger;
+        ScrollTrigger.refresh();
+      }
+
+      function renderProjects() {
+        const grid = document.getElementById('projects-grid');
+        const list = activeProjFilter === 'all' ? PROJECTS : PROJECTS.filter((p) => p.group === activeProjFilter);
+
+        grid.innerHTML = list.map((p, idx) => `
+          <article data-proj-id="${p.id}" class="proj-card project-stack-card grid grid-cols-1 md:grid-cols-12 cursor-pointer group">
+            <div class="md:col-span-5 p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden" style="background: ${p.accent}; color: #F5F2EC;">
+              <div class="flex items-center justify-between">
+                <span class="font-mono-label text-xs tracking-widest opacity-85">PROJECT ${p.num}</span>
+                <span class="font-mono-label text-[11px] px-2.5 py-0.5 rounded-full bg-white/15">${idx + 1} of ${list.length}</span>
+              </div>
+              <div class="my-4 md:my-0 space-y-2">
+                <h3 class="font-serif-editorial text-2xl sm:text-3xl font-semibold leading-tight">${p.title}</h3>
+                <div class="text-xs font-mono-label opacity-80">${p.role}</div>
+              </div>
+              <div class="text-[11px] font-mono-label opacity-70 uppercase tracking-widest">
+                Scroll to reveal next · Click for full case study
+              </div>
+            </div>
+            <div class="md:col-span-7 p-6 sm:p-8 flex flex-col justify-between space-y-5 bg-white">
+              <div class="space-y-4">
+                <div class="text-[11px] font-mono-label uppercase tracking-widest text-[#D58B68]">Overview &amp; Key Features</div>
+                <p class="text-sm sm:text-base text-[#20232B] leading-relaxed">${p.short}</p>
+                <p class="text-xs sm:text-sm text-[#62636A] leading-relaxed">${p.features}</p>
+              </div>
+              <div class="space-y-4 pt-4 border-t border-[#17243A]/10">
+                <div class="flex flex-wrap gap-2">
+                  ${p.tech.map((t) => `<span class="px-3 py-1 rounded-full bg-[#F5F2EC] border border-[#17243A]/10 text-xs font-mono-label text-[#17243A]">${t}</span>`).join('')}
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-mono-label text-[#526B85]">Case Study · Editable Links</span>
+                  <span class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#17243A] text-white text-xs font-medium group-hover:bg-[#D58B68] transition-colors">
+                    <span>Open Case Study</span>
+                    <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </article>
+        `).join('');
+
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+        grid.querySelectorAll('.proj-card').forEach((card) => {
+          card.addEventListener('click', () => {
+            const proj = PROJECTS.find((p) => p.id === card.dataset.projId);
+            if (proj) openProjectModal(proj);
+          });
+        });
+
+        if (projectsInitReady) {
+          initProjectsStackScroll();
+          if (typeof ScrollTrigger !== 'undefined') {
+            ScrollTrigger.sort();
+            ScrollTrigger.refresh();
+          }
+        }
+      }
+
+      function openProjectModal(p) {
+        document.getElementById('pm-num').textContent = 'CASE STUDY ' + p.num;
+        document.getElementById('pm-title').textContent = p.title;
+        document.getElementById('pm-desc').textContent = p.short;
+        document.getElementById('pm-role').textContent = p.role;
+        document.getElementById('pm-features').textContent = p.features;
+        document.getElementById('pm-challenges').textContent = p.challenges;
+        document.getElementById('pm-solutions').textContent = p.solutions;
+        document.getElementById('pm-tags').innerHTML = p.tech.map((t) => `<span class="px-3 py-1 rounded-full bg-white border border-[#17243A]/12 text-xs font-mono-label text-[#17243A]">${t}</span>`).join('');
+        const m = document.getElementById('project-modal');
+        m.classList.remove('hidden');
+        m.classList.add('flex');
+      }
+
+      // ==========================================
+      // 6. PERSONAL MODE WIDGETS
+      // ==========================================
+      function renderScrapbook() {
+        const grid = document.getElementById('scrapbook-grid');
+        grid.innerHTML = SCRAPBOOK_SLOTS.map((slot) => `
+          <div class="relative">
+            <div class="washi-tape" style="width: 64px; height: 20px;"></div>
+            <div class="polaroid-frame" style="transform: rotate(${slot.rot});">
+              <div id="sb-img-${slot.id}" class="aspect-square rounded-lg bg-[#EFECE4] border border-dashed border-[#17243A]/20 flex flex-col items-center justify-center text-[#526B85] gap-1.5 overflow-hidden">
+                <i data-lucide="camera" class="w-6 h-6 opacity-50"></i>
+                <span class="text-[10px] font-mono-label">PHOTO SLOT</span>
+              </div>
+              <p class="font-handwritten text-lg text-[#17243A] mt-3 text-center leading-tight">${slot.caption}</p>
+            </div>
+          </div>
+        `).join('');
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
+
+      function initLoves() {
+        const tabs = document.getElementById('loves-tabs');
+        const keys = Object.keys(LOVES_DATA);
+        let activeKey = keys[0];
+
+        function draw() {
+          tabs.innerHTML = keys.map((k) => `
+            <button type="button" data-love-key="${k}" class="love-tab-btn px-3 py-1.5 rounded-full text-xs font-medium ${k === activeKey ? 'bg-[#17243A] text-white' : 'bg-white border border-[#17243A]/15 text-[#17243A]'}">${k}</button>
+          `).join('');
+          document.getElementById('loves-content').innerHTML = `
+            <div class="text-xs font-mono-label uppercase text-[#D58B68] mb-1.5">${activeKey}</div>
+            <p class="text-sm sm:text-base text-[#20232B] leading-relaxed">${LOVES_DATA[activeKey]}</p>
+          `;
+          tabs.querySelectorAll('.love-tab-btn').forEach((btn) => {
+            btn.addEventListener('click', () => {
+              activeKey = btn.dataset.loveKey;
+              draw();
+            });
+          });
+        }
+        draw();
+      }
+
+      function renderBucketList() {
+        const ul = document.getElementById('bucket-list-items');
+        ul.innerHTML = BUCKET_LIST.map((item, idx) => `
+          <li class="flex items-start gap-2.5">
+            <button type="button" data-bucket-idx="${idx}" class="bucket-toggle-btn mt-0.5 w-4 h-4 rounded border flex items-center justify-center shrink-0 ${item.done ? 'bg-[#D58B68] border-[#D58B68] text-white' : 'border-[#17243A]/30 bg-white'}">
+              ${item.done ? '✓' : ''}
+            </button>
+            <span class="${item.done ? 'line-through text-[#62636A]' : 'text-[#20232B]'}">${item.text}</span>
+          </li>
+        `).join('');
+        ul.querySelectorAll('.bucket-toggle-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const i = Number(btn.dataset.bucketIdx);
+            BUCKET_LIST[i].done = !BUCKET_LIST[i].done;
+            renderBucketList();
+          });
+        });
+      }
+
+      // ==========================================
+      // 7. INTERACTIVE PLAYGROUND (ALL 5 GAMES)
+      // ==========================================
+      function switchGameTab(name) {
+        document.querySelectorAll('.game-panel').forEach((p) => p.classList.add('hidden'));
+        const panel = document.getElementById('game-panel-' + name);
+        if (panel) panel.classList.remove('hidden');
+        document.querySelectorAll('.game-tab-btn').forEach((b) => {
+          const on = b.dataset.gameTab === name;
+          b.className = 'game-tab-btn px-4 py-2 rounded-full text-xs font-medium ' + (on ? 'bg-[#17243A] text-white' : 'bg-white border border-[#17243A]/12 text-[#17243A]');
+        });
+      }
+
+      // Game 1
+      function renderG1() {
+        g1Locked = false;
+        const q = G1_QUESTIONS[g1Idx];
+        document.getElementById('g1-progress').textContent = `QUESTION ${g1Idx + 1} OF ${G1_QUESTIONS.length}`;
+        document.getElementById('g1-score').textContent = g1Score;
+        document.getElementById('g1-question').textContent = q.q;
+        document.getElementById('g1-feedback').textContent = '';
+        document.getElementById('g1-next-btn').classList.add('hidden');
+        document.getElementById('g1-restart-btn').classList.add('hidden');
+        const opts = document.getElementById('g1-options');
+        opts.innerHTML = q.opts.map((o, i) => `
+          <button type="button" data-g1-opt="${i}" class="g1-opt-btn p-4 rounded-2xl border border-[#17243A]/15 bg-[#F5F2EC] text-left text-sm font-medium text-[#17243A] hover:border-[#D58B68] transition-colors">${o}</button>
+        `).join('');
+        opts.querySelectorAll('.g1-opt-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            if (g1Locked) return;
+            g1Locked = true;
+            const pick = Number(btn.dataset.g1Opt);
+            const fb = document.getElementById('g1-feedback');
+            if (pick === q.ans) {
+              g1Score++;
+              document.getElementById('g1-score').textContent = g1Score;
+              btn.classList.add('bg-[#17243A]', 'text-white');
+              fb.textContent = 'Spot on! Good eye.';
+              fb.style.color = '#17243A';
+            } else {
+              btn.classList.add('border-[#D58B68]', 'bg-[#D58B68]/15');
+              fb.textContent = 'Not quite — the answer is "' + q.opts[q.ans] + '".';
+              fb.style.color = '#D58B68';
+            }
+            if (typeof anime !== 'undefined') anime({ targets: btn, scale: [0.96, 1], duration: 300, easing: 'easeOutBack' });
+            if (g1Idx < G1_QUESTIONS.length - 1) document.getElementById('g1-next-btn').classList.remove('hidden');
+            else document.getElementById('g1-restart-btn').classList.remove('hidden');
+          });
+        });
+      }
+
+      // Game 2
+      function renderG2() {
+        g2Locked = false;
+        const resBox = document.getElementById('g2-result-box');
+        const restartBtn = document.getElementById('g2-restart-btn');
+        if (g2Idx >= G2_QUESTIONS.length) {
+          document.getElementById('g2-question').textContent = 'Quiz Complete!';
+          document.getElementById('g2-options').innerHTML = '';
+          resBox.classList.remove('hidden');
+          restartBtn.classList.remove('hidden');
+          let rank = 'Just Met Me';
+          if (g2Score >= 5) rank = 'You Know Me Well!';
+          else if (g2Score >= 4) rank = 'Pretty Good Observer';
+          else if (g2Score >= 2) rank = 'Getting to Know Me';
+          document.getElementById('g2-rank').textContent = rank;
+          document.getElementById('g2-summary').textContent = `You scored ${g2Score} out of ${G2_QUESTIONS.length}.`;
+          return;
+        }
+        resBox.classList.add('hidden');
+        restartBtn.classList.add('hidden');
+        const q = G2_QUESTIONS[g2Idx];
+        document.getElementById('g2-progress').textContent = `QUESTION ${g2Idx + 1} OF ${G2_QUESTIONS.length}`;
+        document.getElementById('g2-score').textContent = g2Score;
+        document.getElementById('g2-question').textContent = q.q;
+        const opts = document.getElementById('g2-options');
+        opts.innerHTML = q.opts.map((o, i) => `
+          <button type="button" data-g2-opt="${i}" class="g2-opt-btn p-4 rounded-2xl border border-[#17243A]/15 bg-[#F5F2EC] text-left text-sm font-medium text-[#17243A] hover:border-[#D58B68] transition-colors">${o}</button>
+        `).join('');
+        opts.querySelectorAll('.g2-opt-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            if (g2Locked) return;
+            g2Locked = true;
+            if (Number(btn.dataset.g2Opt) === q.ans) g2Score++;
+            g2Idx++;
+            setTimeout(renderG2, 260);
+          });
+        });
+      }
+
+      // Game 3: This or That
+      function renderG3() {
+        g3Locked = false;
+        const pair = G3_PAIRS[g3Idx];
+        document.getElementById('g3-progress').textContent = `PAIR ${g3Idx + 1} OF ${G3_PAIRS.length}`;
+        document.getElementById('g3-matches').textContent = g3Matches;
+        document.getElementById('g3-left-label').textContent = pair.a;
+        document.getElementById('g3-right-label').textContent = pair.b;
+        document.getElementById('g3-reveal').textContent = 'Pick your preference to compare.';
+        document.getElementById('g3-next-btn').classList.add('hidden');
+        document.getElementById('g3-reset-btn').classList.add('hidden');
+      }
+
+      function pickG3(side) {
+        if (g3Locked) return;
+        g3Locked = true;
+        const pair = G3_PAIRS[g3Idx];
+        const pawanLabel = pair.pawan === 'a' ? pair.a : pair.b;
+        if (side === pair.pawan) {
+          g3Matches++;
+          document.getElementById('g3-matches').textContent = g3Matches;
+          document.getElementById('g3-reveal').textContent = `Match! Pawan’s slot is also set to ${pawanLabel}. (${pair.note})`;
+        } else {
+          document.getElementById('g3-reveal').textContent = `Different pick! Pawan’s slot is set to ${pawanLabel}. (${pair.note})`;
+        }
+        if (g3Idx < G3_PAIRS.length - 1) document.getElementById('g3-next-btn').classList.remove('hidden');
+        else document.getElementById('g3-reset-btn').classList.remove('hidden');
+      }
+
+      // Game 4: Random Fact
+      function drawFact() {
+        factIdx = (factIdx + 1) % RANDOM_FACTS.length;
+        const f = RANDOM_FACTS[factIdx];
+        const card = document.getElementById('fact-card');
+        document.getElementById('fact-tag').textContent = f.tag;
+        document.getElementById('fact-text').textContent = f.text;
+        if (typeof anime !== 'undefined') {
+          anime({ targets: card, scale: [0.97, 1], opacity: [0.6, 1], duration: 380, easing: 'easeOutExpo' });
+        }
+      }
+
+      // Game 5: Hidden Surprises
+      function renderEggs() {
+        const total = Object.values(foundEggs).filter(Boolean).length;
+        document.getElementById('egg-counter').textContent = total;
+        const items = [
+          { key: 'logo', title: 'The Monogram Tap', hint: 'Click the PD monogram in the top bar 3 times.' },
+          { key: 'star', title: 'The Terracotta Star', hint: 'Find and click the tiny ✦ beside "Notes to Self".' },
+          { key: 'footer', title: 'The Footer Compass', hint: 'Click the quiet compass icon in the page footer.' }
+        ];
+        document.getElementById('eggs-checklist').innerHTML = items.map((e) => `
+          <div class="p-4 rounded-2xl border ${foundEggs[e.key] ? 'bg-[#D58B68]/15 border-[#D58B68]' : 'bg-[#F5F2EC] border-[#17243A]/10'} space-y-1">
+            <div class="text-xs font-mono-label uppercase ${foundEggs[e.key] ? 'text-[#D58B68]' : 'text-[#526B85]'}">${foundEggs[e.key] ? 'UNLOCKED ✓' : 'UNDISCOVERED'}</div>
+            <div class="font-serif-editorial font-semibold text-[#17243A]">${e.title}</div>
+            <p class="text-xs text-[#62636A]">${e.hint}</p>
+          </div>
+        `).join('');
+      }
+
+      function unlockEgg(key, msg) {
+        if (!foundEggs[key]) {
+          foundEggs[key] = true;
+          renderEggs();
+          showToast('Surprise unlocked: ' + msg);
+        } else {
+          showToast(msg);
+        }
+      }
+
+      // ==========================================
+      // 8. INIT & EVENT LISTENERS
+      // ==========================================
+      document.addEventListener('DOMContentLoaded', () => {
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+
+        renderTimeline();
+        renderSkillTabs();
+        renderOrbitCards();
+        renderSkills();
+        renderProjects();
+        renderScrapbook();
+        initLoves();
+        renderBucketList();
+        renderG1();
+        renderG2();
+        renderG3();
+        renderEggs();
+
+        // Hero GSAP entrance + idle floating + ScrollTrigger lean-left & PD reveal
+        if (typeof gsap !== 'undefined') {
+          if (typeof ScrollTrigger !== 'undefined') {
+            gsap.registerPlugin(ScrollTrigger);
+          }
+
+          gsap.fromTo('.hero-stagger', { y: 16, opacity: 0.2 }, { y: 0, opacity: 1, duration: 0.65, stagger: 0.08, ease: 'power2.out' });
+
+          // Continuous gentle floating & micro-sway while the page is at rest (starts straight)
+          gsap.to('#hero-polaroid', {
+            y: -9,
+            rotation: 1.1,
+            duration: 2.7,
+            repeat: -1,
+            yoyo: true,
+            ease: 'sine.inOut'
+          });
+
+          // Floating bob on tech chips and emoji badge
+          gsap.to('.hero-chip', {
+            y: -7,
+            duration: 2.1,
+            stagger: { each: 0.35, repeat: -1, yoyo: true },
+            ease: 'sine.inOut'
+          });
+
+          // Pinned scroll choreography: Polaroid leans a full -90deg left overlapping the left side while revealing PD completely
+          if (typeof ScrollTrigger !== 'undefined') {
+            ScrollTrigger.config({ ignoreMobileResize: true });
+
+            const heroScrollTl = gsap.timeline({
+              scrollTrigger: {
+                trigger: '#home',
+                start: 'top top',
+                end: '42% top',
+                pin: false,
+                scrub: 1.1,
+                refreshPriority: 30
+              }
+            });
+
+            heroScrollTl
+              .to('#hero-polaroid-scroll', {
+                rotation: -50,
+                x: -56,
+                y: 16,
+                force3D: true,
+                ease: 'power1.out'
+              }, 0)
+              .to('#hero-pd-watermark', {
+                opacity: 1,
+                x: 8,
+                y: -28,
+                scale: 1.1,
+                force3D: true,
+                ease: 'power1.out'
+              }, 0);
+          }
+
+          // Skills section pinned orbital circle choreography (reverse-scroll supported)
+          initSkillsOrbitScroll();
+
+          // Initialize Projects pinned stack strictly AFTER Skills so pinSpacing never overlaps
+          projectsInitReady = true;
+          initProjectsStackScroll();
+          if (typeof ScrollTrigger !== 'undefined') {
+            ScrollTrigger.sort();
+            setTimeout(() => ScrollTrigger.refresh(), 120);
+          }
+
+          // Timeline scroll-driven yellow progress line & moving yellow ball
+          if (typeof ScrollTrigger !== 'undefined') {
+            const tlWrap = document.getElementById('timeline-wrapper');
+            const tlLine = document.getElementById('timeline-progress-line');
+            const tlBall = document.getElementById('timeline-yellow-ball');
+            if (tlWrap && tlLine && tlBall) {
+              ScrollTrigger.create({
+                trigger: tlWrap,
+                start: 'top 68%',
+                end: 'bottom 68%',
+                scrub: 0.4,
+                onUpdate: (self) => {
+                  const trackLen = Math.max(0, tlWrap.offsetHeight - 48);
+                  const dist = self.progress * trackLen;
+                  tlLine.style.height = dist + 'px';
+                  tlBall.style.top = (24 + dist) + 'px';
+
+                  const dots = tlWrap.querySelectorAll('.timeline-dot');
+                  dots.forEach((dot) => {
+                    const dotTop = dot.getBoundingClientRect().top;
+                    const ballTop = tlBall.getBoundingClientRect().top;
+                    if (ballTop >= dotTop - 8) {
+                      dot.style.backgroundColor = '#FACC15';
+                      dot.style.borderColor = '#17243A';
+                    } else {
+                      dot.style.backgroundColor = '#F5F2EC';
+                      dot.style.borderColor = '#17243A';
+                    }
+                  });
+                }
+              });
+            }
+          }
+
+          // Interactive subtle pointer movement on hero section (keeps idle float intact)
+          const heroSec = document.getElementById('home');
+          if (heroSec) {
+            heroSec.addEventListener('mousemove', (e) => {
+              const rect = heroSec.getBoundingClientRect();
+              const nx = (e.clientX - rect.left) / rect.width - 0.5;
+              gsap.to('#hero-polaroid', {
+                x: nx * 14,
+                duration: 0.6,
+                ease: 'power2.out',
+                overwrite: 'auto'
+              });
+              gsap.to('#hero-emoji-badge', {
+                x: nx * -10,
+                rotation: nx * 16,
+                duration: 0.6,
+                ease: 'power2.out',
+                overwrite: 'auto'
+              });
+            });
+            heroSec.addEventListener('mouseleave', () => {
+              gsap.to('#hero-polaroid', {
+                x: 0,
+                duration: 0.8,
+                ease: 'elastic.out(1, 0.55)',
+                overwrite: 'auto'
+              });
+            });
+          }
+        }
+
+        // Slow, silky full-page wheel scroll inertia synced with GSAP ScrollTrigger
+        (function initSlowSmoothScroll() {
+          let targetY = window.scrollY;
+          let currentY = window.scrollY;
+          let isAnimating = false;
+          const WHEEL_SPEED = 0.38; // slow, deliberate glide
+          const LERP_EASE = 0.075;  // silky inertia
+
+          function isModalOpen() {
+            const pm = document.getElementById('project-modal');
+            const rm = document.getElementById('resume-modal');
+            return (pm && !pm.classList.contains('hidden')) || (rm && !rm.classList.contains('hidden'));
+          }
+
+          function step() {
+            const diff = targetY - currentY;
+            if (Math.abs(diff) < 0.4) {
+              currentY = targetY;
+              window.scrollTo(0, currentY);
+              if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.update();
+              isAnimating = false;
+              return;
+            }
+            currentY += diff * LERP_EASE;
+            window.scrollTo(0, currentY);
+            if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.update();
+            requestAnimationFrame(step);
+          }
+
+          window.addEventListener('wheel', (e) => {
+            if (e.ctrlKey || isModalOpen()) return;
+            e.preventDefault();
+            const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+            if (!isAnimating) {
+              currentY = window.scrollY;
+              targetY = window.scrollY;
+            }
+            targetY = Math.max(0, Math.min(maxScroll, targetY + e.deltaY * WHEEL_SPEED));
+            if (!isAnimating) {
+              isAnimating = true;
+              requestAnimationFrame(step);
+            }
+          }, { passive: false });
+
+          // Keep in sync if user drags scrollbar or clicks anchor links
+          window.addEventListener('scroll', () => {
+            if (!isAnimating) {
+              currentY = window.scrollY;
+              targetY = window.scrollY;
+            }
+            const docH = document.documentElement.scrollHeight - window.innerHeight;
+            const pct = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+            document.getElementById('scroll-progress').style.width = Math.min(100, Math.max(0, pct)) + '%';
+          });
+        })();
+
+        // Mode switcher
+        document.getElementById('mode-pro-btn').addEventListener('click', () => setMode('professional'));
+        document.getElementById('mode-personal-btn').addEventListener('click', () => setMode('personal'));
+        document.getElementById('meet-human-btn').addEventListener('click', () => setMode('personal'));
+        document.getElementById('back-to-pro-btn').addEventListener('click', () => setMode('professional'));
+
+        // Mobile menu
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+          document.getElementById('mobile-nav').classList.toggle('hidden');
+        });
+        function handleSectionNav(e, href) {
+          if (href === '#playground') {
+            e.preventDefault();
+            if (activeMode !== 'personal') setMode('personal');
+            setTimeout(() => {
+              const el = document.getElementById('playground');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }, 80);
+            return;
+          }
+          if (activeMode === 'personal' && href !== '#contact') {
+            setMode('professional');
+          }
+        }
+
+        document.querySelectorAll('.mobile-link').forEach((a) => {
+          a.addEventListener('click', (e) => {
+            document.getElementById('mobile-nav').classList.add('hidden');
+            handleSectionNav(e, a.getAttribute('href'));
+          });
+        });
+
+        // Desktop nav links route #playground -> Personal Mode, Pro sections -> Professional Mode
+        document.querySelectorAll('.nav-link').forEach((a) => {
+          a.addEventListener('click', (e) => {
+            handleSectionNav(e, a.getAttribute('href'));
+          });
+        });
+
+        // Project filters
+        document.querySelectorAll('.proj-filter-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            activeProjFilter = btn.dataset.projFilter;
+            document.querySelectorAll('.proj-filter-btn').forEach((b) => {
+              const on = b.dataset.projFilter === activeProjFilter;
+              b.className = 'proj-filter-btn px-3.5 py-1.5 rounded-full text-xs font-medium ' + (on ? 'bg-[#17243A] text-white' : 'bg-white border border-[#17243A]/15 text-[#17243A]');
+            });
+            renderProjects();
+          });
+        });
+
+        // Modals
+        document.getElementById('pm-close-btn').addEventListener('click', () => {
+          document.getElementById('project-modal').classList.add('hidden');
+          document.getElementById('project-modal').classList.remove('flex');
+        });
+        document.getElementById('project-modal').addEventListener('click', (e) => {
+          if (e.target.id === 'project-modal') {
+            e.target.classList.add('hidden');
+            e.target.classList.remove('flex');
+          }
+        });
+
+        function openResume() {
+          const m = document.getElementById('resume-modal');
+          m.classList.remove('hidden');
+          m.classList.add('flex');
+        }
+        document.getElementById('resume-open-btn').addEventListener('click', openResume);
+        document.getElementById('hero-resume-btn').addEventListener('click', openResume);
+        document.getElementById('mobile-resume-btn').addEventListener('click', () => {
+          document.getElementById('mobile-nav').classList.add('hidden');
+          openResume();
+        });
+        document.getElementById('resume-close-btn').addEventListener('click', () => {
+          document.getElementById('resume-modal').classList.add('hidden');
+          document.getElementById('resume-modal').classList.remove('flex');
+        });
+        document.getElementById('resume-download-txt-btn').addEventListener('click', () => {
+          const text = `PAWAN DAS\nSoftware Developer / Full-Stack Developer (PHP & Laravel Specialist)\nEmail: daspawan53785@gmail.com\nLinkedIn: https://www.linkedin.com/in/pawan-das-555701282\nGitHub: https://github.com/Pawandas461\n\nEXPERIENCE\n- Encompass Financial Services | Software Developer (Joined Oct 2026 – Present): Enterprise software solutions & SuiteCRM customization.\n- Webmaddy Pvt. Ltd. | Software Developer (Jan 2025 – Oct 2026): Laravel, PHP, Node.js, Next.js, NestJS, MongoDB, Supabase (~20–25 projects).\n- Wild Web Digital Pvt. Ltd. | Web Developer Intern (Oct 2024 – Nov 2024 · 2 Months): Web application development, feature implementation & backend.\n\nCORE SKILLS\nBackend: PHP, Laravel, Core PHP, Node.js, NestJS, REST API Development\nFrontend: HTML5, CSS3, JavaScript, TypeScript, Bootstrap 5, React, Next.js, Vue.js, jQuery, AJAX\nDatabases: MySQL, MongoDB, PostgreSQL, Supabase\nCRM & Tools: SuiteCRM 7.x, Git, GitHub, Composer, XAMPP, phpMyAdmin, MySQL Workbench, VS Code\n`;
+          const blob = new Blob([text], { type: 'text/plain' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'Pawan_Das_Resume.txt';
+          a.click();
+          URL.revokeObjectURL(url);
+          showToast('Résumé summary downloaded');
+        });
+
+        // Local photo preview for Scrapbook
+        let nextSlot = 0;
+        document.getElementById('scrapbook-upload').addEventListener('change', (e) => {
+          const file = e.target.files && e.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = () => {
+            const slot = SCRAPBOOK_SLOTS[nextSlot % SCRAPBOOK_SLOTS.length];
+            const box = document.getElementById('sb-img-' + slot.id);
+            if (box) {
+              box.innerHTML = `<img src="${reader.result}" alt="Preview memory" class="w-full h-full object-cover" />`;
+              nextSlot++;
+              showToast('Photo preview placed in Polaroid #' + nextSlot);
+            }
+          };
+          reader.readAsDataURL(file);
+        });
+
+        // Bucket List form
+        document.getElementById('bucket-form').addEventListener('submit', (e) => {
+          e.preventDefault();
+          const inp = document.getElementById('bucket-input');
+          const val = inp.value.trim();
+          if (!val) return;
+          BUCKET_LIST.push({ text: val, done: false });
+          inp.value = '';
+          renderBucketList();
+        });
+
+        // Playground bindings
+        document.querySelectorAll('.game-tab-btn').forEach((btn) => {
+          btn.addEventListener('click', () => switchGameTab(btn.dataset.gameTab));
+        });
+        document.getElementById('g1-next-btn').addEventListener('click', () => { g1Idx++; renderG1(); });
+        document.getElementById('g1-restart-btn').addEventListener('click', () => { g1Idx = 0; g1Score = 0; renderG1(); });
+        document.getElementById('g2-restart-btn').addEventListener('click', () => { g2Idx = 0; g2Score = 0; renderG2(); });
+        document.getElementById('g3-left-btn').addEventListener('click', () => pickG3('a'));
+        document.getElementById('g3-right-btn').addEventListener('click', () => pickG3('b'));
+        document.getElementById('g3-next-btn').addEventListener('click', () => { g3Idx++; renderG3(); });
+        document.getElementById('g3-reset-btn').addEventListener('click', () => { g3Idx = 0; g3Matches = 0; renderG3(); });
+        document.getElementById('fact-draw-btn').addEventListener('click', drawFact);
+
+        // Easter Eggs
+        document.getElementById('brand-logo-btn').addEventListener('click', () => {
+          logoClicks++;
+          if (logoClicks >= 3) unlockEgg('logo', 'Thanks for exploring every detail of my portfolio!');
+          else window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        document.getElementById('egg-star-btn').addEventListener('click', () => {
+          unlockEgg('star', 'Small details make software feel human.');
+        });
+        document.getElementById('egg-footer-btn').addEventListener('click', () => {
+          unlockEgg('footer', 'You found the quiet compass — stay curious!');
+        });
+
+        // Copy Email & Social Slots
+        document.getElementById('copy-email-btn').addEventListener('click', () => {
+          const email = 'daspawan53785@gmail.com';
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(email).then(() => showToast('Email copied to clipboard!')).catch(() => showToast(email));
+          } else {
+            const ta = document.createElement('textarea');
+            ta.value = email;
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy'); showToast('Email copied to clipboard!'); } catch (err) {}
+            document.body.removeChild(ta);
+          }
+        });
+
+
+
+        // Contact Form
+        document.getElementById('contact-form').addEventListener('submit', (e) => {
+          e.preventDefault();
+          const name = document.getElementById('cf-name').value.trim();
+          document.getElementById('cf-status').textContent = `Thank you, ${name || 'friend'}! Your message has been validated (connect a backend/Formspree endpoint to receive live emails).`;
+          showToast('Message validated & sent (preview mode)');
+          e.target.reset();
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
